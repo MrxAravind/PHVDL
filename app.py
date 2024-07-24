@@ -62,15 +62,17 @@ async def upload_video(app, chat_id, file_path, thumbnail_path):
 
 @app.on_message(filters.private & filters.text)
 async def video(client, message):
+    chat_id = message.chat.id
     if message.text.startswith("https://"):
-        video_urls = [ i.strip()  for i in message.text.split()]
-        chat_id = message.chat.id
+        status = await app.send_message(chat_id,"Video Is Processing")
+        video_urls = [ i.strip()  for i in message.text.split()]       
         download_dir = 'downloads'
         if not os.path.exists(download_dir):
             os.makedirs(download_dir)
         for video_url in video_urls:
             try:
                 downloaded_video_path = download_video(video_url, output_path=download_dir)
+                status = await status.edit_text("Video Has Been Downloaded..")
                 exact_file_path = None
                 thumbnail_path = None
                 for root, dirs, files in os.walk(download_dir):
@@ -80,10 +82,14 @@ async def video(client, message):
                         elif file.endswith(('.jpg', '.png', '.webp')):
                             thumbnail_path = os.path.join(root, file)
                 if exact_file_path and thumbnail_path:
+                    status = await status.edit_text("Video Starting to Upload..")
                     await upload_video(app, chat_id, exact_file_path, thumbnail_path)
                 else:
                     logging.error(f"Downloaded video or thumbnail file not found in '{download_dir}' directory.")
+                    status = await status.edit_text(f"Downloaded video or thumbnail file not found in '{download_dir}' directory.")
+                    
             except Exception as e:
+                status = await status.edit_text(f"Error Occured:{e}")
                 logging.error(f"An error occurred: {e}")
 
 print("Bot Started")
