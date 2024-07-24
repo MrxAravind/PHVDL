@@ -2,6 +2,8 @@ import os
 import logging
 from pyrogram import Client,filters
 from yt_dlp import YoutubeDL
+import static_ffmpeg
+
 
 # Configure logging
 logging.basicConfig(
@@ -17,6 +19,9 @@ BOT_TOKEN = '7199772252:AAHQfjo8VIWg2wDOCUXLdMt9klsQD_OuVx4'
 
 # Create the Pyrogram client
 app = Client("my_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
+
+static_ffmpeg.add_paths()  
+
 
 # Progress hook for yt-dlp
 def download_progress_hook(d):
