@@ -65,7 +65,7 @@ async def video(client, message):
     chat_id = message.chat.id
     if message.text.startswith("https://"):
         await message.delete()
-        status = await app.send_message("Video Is Processing")
+        status = await app.send_message(chat_id,"Video Is Processing")
         video_urls = [ i.strip()  for i in message.text.split()]       
         download_dir = 'downloads'
         if not os.path.exists(download_dir):
