@@ -64,7 +64,7 @@ async def upload_video(app, chat_id, file_path, thumbnail_path):
 async def video(client, message):
     chat_id = message.chat.id
     if message.text.startswith("https://"):
-        status = await app.send_message(chat_id,"Video Is Processing")
+        status = await message.reply("Video Is Processing")
         video_urls = [ i.strip()  for i in message.text.split()]       
         download_dir = 'downloads'
         if not os.path.exists(download_dir):
@@ -84,6 +84,7 @@ async def video(client, message):
                 if exact_file_path and thumbnail_path:
                     #status = await status.edit_text("Video Starting to Upload..")
                     await upload_video(app, chat_id, exact_file_path, thumbnail_path)
+                    await status.delete()
                 else:
                     logging.error(f"Downloaded video or thumbnail file not found in '{download_dir}' directory.")
                     #status = await status.edit_text(f"Downloaded video or thumbnail file not found in '{download_dir}' directory.")
