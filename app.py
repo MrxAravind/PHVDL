@@ -83,7 +83,7 @@ async def video(client, message):
                         elif file.endswith(('.jpg', '.png', '.webp')):
                             thumbnail_path = os.path.join(root, file)
                 if exact_file_path and thumbnail_path:
-                    status = await status.edit_text("Video Has Been Downloaded..\nand Started To Upload")
+                    #status = await status.edit_text("Video Has Been Downloaded..\nand Started To Upload")
                     await upload_video(app, chat_id, exact_file_path, thumbnail_path)
                     await status.delete()
                     os.remove(exact_file_path)
