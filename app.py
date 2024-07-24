@@ -3,7 +3,7 @@ import logging
 from pyrogram import Client,filters
 from yt_dlp import YoutubeDL
 import static_ffmpeg
-
+import asnycio 
 
 # Configure logging
 logging.basicConfig(
@@ -68,7 +68,10 @@ async def upload_video(app, chat_id, file_path, thumbnail_path):
 
 @app.on_message(filters.command("start"))
 async def start_command(client, message):
-         await message.reply_message("Send Any Yt-Dlp Supported Link to Download..")
+         chat_id = message.chat.id
+         await message.delete()
+         welcome = await app.send_message(chat_id,"Send Any Yt-Dlp Supported Link to Download..")
+         await asnycio.sleep(3)
 
 @app.on_message(filters.private & filters.text)
 async def video(client, message):
