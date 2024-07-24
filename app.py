@@ -1,6 +1,6 @@
 import os
 import logging
-from pyrogram import Client
+from pyrogram import Client,filters
 from yt_dlp import YoutubeDL
 
 # Configure logging
