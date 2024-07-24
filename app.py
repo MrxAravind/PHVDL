@@ -60,6 +60,11 @@ async def upload_video(app, chat_id, file_path, thumbnail_path):
         raise
 
 
+
+@app.on_message(filters.command("start"))
+async def start_command(client, message):
+         await message.reply_message("Send Any Yt-Dlp Supported Link to Download..")
+
 @app.on_message(filters.private & filters.text)
 async def video(client, message):
     chat_id = message.chat.id
