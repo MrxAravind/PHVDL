@@ -5,7 +5,7 @@ def get_readable_file_size(size):
     return f"{size / (1024 ** 2):.2f} MB"
 
 
-def speedtest():
+def get_speedtest_stats():
     test = speedtest.Speedtest()
     test.get_best_server()
     test.download()
