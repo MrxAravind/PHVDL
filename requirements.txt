@@ -4,4 +4,3 @@ aria2
 TgCrypto
 static_ffmpeg
 speedtest-cli
-python-dotenv
