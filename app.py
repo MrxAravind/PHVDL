@@ -45,7 +45,6 @@ def download_video(url, output_path='downloads'):
             'playlistend': 100,  # Limit the number of videos to download to 100
             'writethumbnail': True,  # Download the thumbnail
             'progress_hooks': [download_progress_hook],
-             'prefer'
              }
         with YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
