@@ -7,6 +7,10 @@ import asyncio
 from datetime import datetime
 import time
 from speed import *
+from dotenv import load_dotenv
+
+
+load_dotenv()
 
 # Configure logging
 logging.basicConfig(
