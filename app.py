@@ -35,7 +35,7 @@ def download_video(url, output_path='downloads'):
         ydl_opts = {
             'format': 'bestvideo[height<=480][ext=mp4]+bestaudio[ext=m4a]/best[height<=480][ext=mp4]',
             'outtmpl': os.path.join(output_path, '%(title)s.%(ext)s'),
-            'external_downloader': 'ffmpeg',
+            'external_downloader': 'aria2c',
             'external_downloader_args': [
                 '-x', '16',  # Number of connections per server
                 '-s', '16',  # Number of connections overall
