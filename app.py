@@ -7,10 +7,6 @@ import asyncio
 from datetime import datetime
 import time
 from speed import *
-from dotenv import load_dotenv
-
-
-load_dotenv()
 
 # Configure logging
 logging.basicConfig(
@@ -20,9 +16,9 @@ logging.basicConfig(
 )
 
 # Telegram API credentials
-BOT_TOKEN = os.getenv("BOT_TOKEN")
-API_ID = os.environ.get('TELEGRAM_API', '')
-API_HASH = os.environ.get('TELEGRAM_HASH', '')
+BOT_TOKEN="7257272841:AAH8al4bbeMzxF_PojRNsA0o99PNxaxqzzc"
+API_ID=23080322
+API_HASH="b3611c291bf82d917637d61e4a136535"
 
 # Create the Pyrogram client
 app = Client("my_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
