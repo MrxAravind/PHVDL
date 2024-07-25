@@ -39,4 +39,4 @@ def get_speedtest_stats():
 ┠ <b>ISP:</b> <code>{result['client']['isp']}</code>
 ┖ <b>ISP Rating:</b> <code>{result['client']['isprating']}</code>
 '''
-    return img,stats
+    return path,stats
