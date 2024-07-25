@@ -40,7 +40,7 @@ def download_video(url, output_path='downloads'):
             'external_downloader_args': [
                 '-x', '16',  # Number of connections per server
                 '-s', '16',  # Number of connections overall
-                '-k', '100M'   # Piece size
+                '-k', '50M'   # Piece size
             ],
             'playlistend': 100,  # Limit the number of videos to download to 100
             'writethumbnail': True,  # Download the thumbnail
