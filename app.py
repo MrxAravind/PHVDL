@@ -4,7 +4,8 @@ from pyrogram import Client,filters
 from yt_dlp import YoutubeDL
 import static_ffmpeg
 import asyncio 
-import datetime ,time
+from datetime import datetime
+import time
 
 # Configure logging
 logging.basicConfig(
