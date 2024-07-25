@@ -39,6 +39,7 @@ def download_video(url, output_path='downloads'):
             'outtmpl': os.path.join(output_path, '%(title)s.%(ext)s'),
             'external_downloader': 'aria2c',
             'external_downloader_args': [
+                '-j','16'
                 '-x', '16',  # Number of connections per server
                 '-s', '16',  # Number of connections overall
                 '-k', '100M'   # Piece size
