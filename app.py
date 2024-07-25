@@ -85,6 +85,7 @@ async def video(client, message):
         status = await app.send_message(chat_id,f"Video Is Processing [{video_hash}]")
         if not os.path.exists(download_dir):
             os.makedirs(download_dir)
+        uploading= []
         for video_url in video_urls:
             try:
                 downloaded_video_path = download_video(video_url, output_path=download_dir)
@@ -96,8 +97,9 @@ async def video(client, message):
                             exact_file_path = os.path.join(root, file)
                         elif file.endswith(('.jpg', '.png', '.webp')):
                             thumbnail_path = os.path.join(root, file)
-                if exact_file_path and thumbnail_path:
+                if exact_file_path and thumbnail_path and exact_file_path not in uploading:
                     #status = await status.edit_text("Video Has Been Downloaded..\nand Started To Upload")
+                    uploading.append(exact_file_path)
                     await upload_video(app, chat_id, exact_file_path, thumbnail_path)
                     await status.delete()
                     os.remove(exact_file_path)
