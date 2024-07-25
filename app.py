@@ -4,6 +4,7 @@ from pyrogram import Client,filters
 from yt_dlp import YoutubeDL
 import static_ffmpeg
 import asyncio 
+import datetime ,time
 
 # Configure logging
 logging.basicConfig(
@@ -35,15 +36,16 @@ def download_video(url, output_path='downloads'):
         ydl_opts = {
             'format': 'bestvideo[height<=480][ext=mp4]+bestaudio[ext=m4a]/best[height<=480][ext=mp4]',
             'outtmpl': os.path.join(output_path, '%(title)s.%(ext)s'),
-            'external_downloader': 'ffmpeg',
+            'external_downloader': 'aria2c',
             'external_downloader_args': [
                 '-x', '16',  # Number of connections per server
                 '-s', '16',  # Number of connections overall
-                '-k', '60M'   # Piece size
+                '-k', '100M'   # Piece size
             ],
             'playlistend': 100,  # Limit the number of videos to download to 100
             'writethumbnail': True,  # Download the thumbnail
-            'progress_hooks': [download_progress_hook]
+            'progress_hooks': [download_progress_hook],
+             'prefer'
              }
         with YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
@@ -76,6 +78,7 @@ async def start_command(client, message):
 
 @app.on_message(filters.private & filters.text)
 async def video(client, message):
+    start_time = datetime.now()
     chat_id = message.chat.id
     if message.text.startswith("https://"):
         await message.delete()
@@ -101,6 +104,7 @@ async def video(client, message):
                            #status = await status.edit_text("Video Has Been Downloaded..\nand Started To Upload")
                            uploading.append(exact_file_path.split("/",2)[-1])
                            await upload_video(app, chat_id, exact_file_path, thumbnail_path)
+                           await app.send_message(chat_id,datetime.now() - start_time)
                            await status.delete()
                            os.remove(exact_file_path)
                            os.remove(thumbnail_path)
