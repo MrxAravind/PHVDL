@@ -105,7 +105,7 @@ async def video(client, message):
                            #status = await status.edit_text("Video Has Been Downloaded..\nand Started To Upload")
                            uploading.append(exact_file_path.split("/",2)[-1])
                            await upload_video(app, chat_id, exact_file_path, thumbnail_path)
-                           await app.send_message(chat_id,str((datetime.now() - start_time).total_seconds()))
+                           #await app.send_message(chat_id,str((datetime.now() - start_time).total_seconds()))
                            await status.delete()
                            os.remove(exact_file_path)
                            os.remove(thumbnail_path)
