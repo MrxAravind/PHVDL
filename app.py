@@ -6,6 +6,7 @@ import static_ffmpeg
 import asyncio 
 from datetime import datetime
 import time
+from speed import *
 
 # Configure logging
 logging.basicConfig(
