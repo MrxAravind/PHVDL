@@ -38,11 +38,7 @@ def download_video(url, output_path='downloads'):
             'format': 'bestvideo[height<=480][ext=mp4]+bestaudio[ext=m4a]/best[height<=480][ext=mp4]',
             'outtmpl': os.path.join(output_path, '%(title)s.%(ext)s'),
             'external_downloader': 'ffmpeg',
-            """'external_downloader_args': [
-                '-x', '16',  # Number of connections per server
-                '-s', '16',  # Number of connections overall
-                '-k', '50M'   # Piece size
-                             ],"""
+            
             'playlistend': 100,  # Limit the number of videos to download to 100
             'writethumbnail': True,  # Download the thumbnail
             'progress_hooks': [download_progress_hook],
