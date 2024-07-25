@@ -39,11 +39,13 @@ def download_video(url, output_path='downloads'):
             'external_downloader_args': [
                 '-x', '16',  # Number of connections per server
                 '-s', '16',  # Number of connections overall
-                '-k', '50M'   # Piece size
+                '-k', 60M'   # Piece size
             ],
             'playlistend': 100,  # Limit the number of videos to download to 100
             'writethumbnail': True,  # Download the thumbnail
-            'progress_hooks': [download_progress_hook]
+            'progress_hooks': [download_progress_hook],
+             'hls_prefer_native':False,
+            'prefer_ffmpeg':True
         }
         with YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
