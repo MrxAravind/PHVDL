@@ -77,6 +77,17 @@ async def start_command(client, message):
          await asyncio.sleep(3)
          await welcome.delete()
 
+
+
+
+@app.on_message(filters.command("speedtest"))
+async def start_command(client, message):
+         chat_id = message.chat.id
+         await speedtest(app, message)
+
+
+
+
 @app.on_message(filters.private & filters.text)
 async def video(client, message):
     start_time = datetime.now()
