@@ -39,10 +39,10 @@ def download_video(url, output_path='downloads'):
             'outtmpl': os.path.join(output_path, '%(title)s.%(ext)s'),
             'external_downloader': 'aria2c',
             'external_downloader_args': [
-                '-j','16'
+                '-j','16',
                 '-x', '16',  # Number of connections per server
                 '-s', '16',  # Number of connections overall
-                '-k', '10M'   # Piece size
+                '-k', '5M'   # Piece size
                              ],
             'playlistend': 100,  # Limit the number of videos to download to 100
             'writethumbnail': True,  # Download the thumbnail
