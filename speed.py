@@ -46,3 +46,4 @@ def get_speedtest_stats():
         return None, f"KeyError: {str(e)} occurred while accessing results."
     except Exception as e:
         return None, f"An error occurred: {str(e)}"
+
