@@ -99,13 +99,13 @@ async def video(client, message):
                             exact_file_path = os.path.join(root, file)
                         elif file.endswith(('.jpg', '.png', '.webp')):
                             thumbnail_path = os.path.join(root, file)
-                if exact_file_path and thumbnail_path and exact_file_path not in uploading:
-                    #status = await status.edit_text("Video Has Been Downloaded..\nand Started To Upload")
-                    uploading.append(exact_file_path)
-                    await upload_video(app, chat_id, exact_file_path, thumbnail_path)
-                    await status.delete()
-                    os.remove(exact_file_path)
-                    os.remove(thumbnail_path)
+                        if exact_file_path and thumbnail_path and exact_file_path.split("/",2)[-1] not in uploading:
+                           #status = await status.edit_text("Video Has Been Downloaded..\nand Started To Upload")
+                           uploading.append(exact_file_path.split("/",2)[-1])
+                           await upload_video(app, chat_id, exact_file_path, thumbnail_path)
+                           await status.delete()
+                           os.remove(exact_file_path)
+                           os.remove(thumbnail_path)
                 else:
                     logging.error(f"Downloaded video or thumbnail file not found in '{download_dir}' directory.")
                     #status = await status.edit_text(f"Downloaded video or thumbnail file not found in '{download_dir}' directory.")
