@@ -76,7 +76,6 @@ async def start_command(client, message):
          await message.delete()
          welcome = await app.send_message(chat_id,"Send Any Yt-Dlp Supported Link to Download..")
          await asyncio.sleep(3)
-         await welcome.delete()
 
 
 
