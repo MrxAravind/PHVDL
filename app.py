@@ -77,7 +77,7 @@ async def start_command(client, message):
 
 @app.on_message(filters.private & filters.text)
 async def video(client, message):
-    #start_time = datetime.now()
+    start_time = datetime.now()
     chat_id = message.chat.id
     if message.text.startswith("https://"):
         await message.delete()
