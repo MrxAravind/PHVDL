@@ -84,7 +84,12 @@ async def start_command(client, message):
 @app.on_message(filters.command("speedtest"))
 async def start_command(client, message):
          chat_id = message.chat.id
-         await speedtest(app, message)
+         start = await app.send_message(chat_id,"<i>Initiating Speedtest...<i>")
+         stats = get_speedtest_stats()
+         caption = stats[1]
+         photo = stats[0]
+         await app.send_photo(chat_id, photo,caption)
+         await start.delete()
 
 
 
