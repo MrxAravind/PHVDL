@@ -18,19 +18,18 @@ def fetch_video_links():
 
 
 
-async def main():
+def main():
   while True:
     time.sleep(30)
     urls = fetch_video_links()
     length = len(urls)
     urls = [" ".join(urls[0:30])," ".join(urls[30:-1])]
     bot = telegram.Bot(BOT_TOKEN)
-    async with bot:
-        for url in urls:
-           await bot.send_message(text=url,chat_id=DUMP_ID)
-            time.sleep(600)
-           await bot.send_message(text=f"{len(url.split())} out of {length} Videos has Been Sent",chat_id=LOG_ID)
+    for url in urls:
+           bot.send_message(text=url,chat_id=DUMP_ID)
+           time.sleep(600)
+           bot.send_message(text=f"{len(url.split())} out of {length} Videos has Been Sent",chat_id=LOG_ID)
     time.sleep(3600)
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    main()
