@@ -1,2 +1,1 @@
-nohup python update.py &
-python app.py
+python update.py && python app.py
