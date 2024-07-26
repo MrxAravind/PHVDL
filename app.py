@@ -13,6 +13,7 @@ import requests
 from bs4 import BeautifulSoup
 from alive import keep_alive
 from threading import Thread
+from concurrent.futures import ThreadPoolExecutor
 
 static_ffmpeg.add_paths()
 
@@ -53,13 +54,22 @@ async def send_message(urls):
 async def link_gen():
     while True:
          urls = fetch_video_links()
-         await asyncio.sleep(30)
+         await asynio.sleep(30)
          await send_message(urls)
          await asynio.sleep(3600)
 
-def autobot():  
-    t = Thread(target=link_gen)
-    t.start()
+
+def run_async_in_thread():
+    loop = asyncio.new_event_loop()
+    asyncio.set_event_loop(loop)
+    result = loop.run_until_complete(Link_gen())
+    loop.close()
+    return result
+
+def autobot():
+    with ThreadPoolExecutor() as executor:
+        future = executor.submit(run_async_in_thread)
+
 
 
 
@@ -69,6 +79,9 @@ def download_progress_hook(d):
         logging.info(f"Downloading {d['filename']}: {d['_percent_str']} at {d['_speed_str']} ETA {d['_eta_str']}")
     elif d['status'] == 'finished':
         logging.info(f"Download complete: {d['filename']}")
+
+
+
 
 def download_video(url, output_path='downloads'):
     try:
@@ -94,8 +107,11 @@ def download_video(url, output_path='downloads'):
         logging.error(f"Failed to download video from URL: {url}. Error: {e}")
         raise
 
+
+
 def upload_progress(current, total):
     logging.info(f"Uploading: {current * 100 / total:.1f}%")
+
 
 async def upload_video(app, chat_id, file_path, thumbnail_path):
     try:
