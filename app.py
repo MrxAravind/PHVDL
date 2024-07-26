@@ -98,6 +98,10 @@ async def video(client, message):
     try:
         start_time = datetime.now()
         chat_id = message.chat.id
+        if message.from_user.mention:
+                user_mention = message.from_user.mention
+        else:
+            user_mention = f"Channel [{chat_id}]"
         if message.text.startswith("https://"):
             video_urls = [i.strip() for i in message.text.split()]
             await message.delete()
@@ -122,7 +126,7 @@ async def video(client, message):
                                 uploading.append(exact_file_path.split("/", 2)[-1])
                                 video = await upload_video(app, chat_id, exact_file_path, thumbnail_path)
                                 if video:
-                                 LM = await app.copy_message(LOG_ID, video.chat.id,video.id,caption=f"""<b>File_Name:</b> <code>{exact_file_path}</code>\n<b>User:</b> <code>{chat_id}</code>""")
+                                 LM = await app.copy_message(LOG_ID, video.chat.id,video.id,caption=f"""<b>File_Name:</b> <code>{exact_file_path.split("/", 2)[-1]}</code>\n<b>User:</b> <code>{chat_id}</code>""")
                                  result = {
                                     "LMID": LM.id,
                                     "LOG_ID": LOG_ID,
