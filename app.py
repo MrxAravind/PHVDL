@@ -151,7 +151,7 @@ async def video(client, message):
                               uploading.append(exact_file_path.split("/", 2)[-1])
                               video = await upload_video(app, chat_id, exact_file_path, thumbnail_path)
                               if video:
-                                     text = f"""
+                                 text = f"""
                                         <b>DMID:</b>{DM.id}\n\
                                         <b>DUMP_ID:</b>{DUMP_ID}\n\
                                         <b>URL:</b>{video_url}\n\
