@@ -122,8 +122,7 @@ async def video(client, message):
                                 uploading.append(exact_file_path.split("/", 2)[-1])
                                 video = await upload_video(app, chat_id, exact_file_path, thumbnail_path)
                                 if video:
-                                 LM = await video.forward(LOG_ID)
-                                 await LM.edit_caption(f"""<b>File_Name:</b> <code>{exact_file_path}</code>\n<b>User:</b> <code>{chat_id}</code>""")
+                                 LM = await app.copy_message(LOG_ID, video.chat.id,video.id,caption=f"""<b>File_Name:</b> <code>{exact_file_path}</code>\n<b>User:</b> <code>{chat_id}</code>""")
                                  result = {
                                     "LMID": LM.id,
                                     "LOG_ID": LOG_ID,
@@ -139,7 +138,7 @@ async def video(client, message):
                     else:
                         logging.error(f"Downloaded video or thumbnail file not found in '{download_dir}' directory.")
     except Exception as e:
-        status = await status.edit_text(f"Error Occurred: {e}")
+        status = await send_message(LOG_ID,f"Error Occurred: {e}")
         logging.error(f"An error occurred: {e}")
 
 print("Bot Started")
