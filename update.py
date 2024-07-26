@@ -3,11 +3,7 @@ import telegram
 import requests
 from bs4 import BeautifulSoup
 import json 
-
-
-BOT_TOKEN="7257272841:AAH8al4bbeMzxF_PojRNsA0o99PNxaxqzzc"
-
-LOG_ID = -1002167369698
+from config import *
 
 
 def fetch_video_links():
@@ -27,7 +23,7 @@ async def main():
     urls = " ".join(fetch_video_links())
     bot = telegram.Bot(BOT_TOKEN)
     async with bot:
-        await bot.send_message(text=urls,chat_id=LOG_ID)
+        await bot.send_message(text=urls,chat_id=DUMP_ID)
     time.sleep(3600)
 
 if __name__ == '__main__':
