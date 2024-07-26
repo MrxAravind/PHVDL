@@ -131,14 +131,13 @@ async def video(client, message):
             uploading = []
             for video_url in video_urls:
                 if check_db(video_url):
-                      await status.edit_text("Url Already Downloaded\nCheck Drive")
                       data = get_info(video_url)
                       if chat_id != LINK_ID:
                           text = f"Someone Tried to Download A Video Thats Already in DB\nSending Copy of {data['File_Name']}"
                           await app.send_message(LOG_ID,text)
                           await app.copy_message(chat_id,DUMP_ID,data["DMID"])
                 else:
-                    status = await app.send_message(chat_id,f"Processed {len(uploading)} Out Of {len(video_urls)}")
+                    status = await status.edit_text(f"Processed {len(uploading)} Out Of {len(video_urls)}")
                     downloaded_video_path = download_video(video_url, output_path=download_dir)
                     exact_file_path = None
                     thumbnail_path = None
