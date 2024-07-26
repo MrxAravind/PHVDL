@@ -7,7 +7,7 @@ import asyncio
 from datetime import datetime
 import time
 from speed import *
-from alive import keep_alive, autobot 
+from alive import keep_alive 
 import requests
 from bs4 import BeautifulSoup
 from threading import Thread
