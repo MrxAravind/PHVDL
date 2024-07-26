@@ -154,6 +154,10 @@ async def video(client, message):
                 logging.error(f"An error occurred: {e}")
 
 
-autobot(app)
-print("Bot Started")
-app.run()
+async def main():
+    print("Bot Started")
+    await app.start()
+    autobot(app)
+    await app.idle()
+    
+app.run(main())
