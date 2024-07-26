@@ -17,9 +17,9 @@ database_name = "Spidydb"
 db = connect_to_mongodb(DATABASE, database_name)
 collection_name = "PHVDL"
 
-static_ffmpeg.add_paths()
+#static_ffmpeg.add_paths()
 
-keep_alive()
+#keep_alive()
 
 # Configure logging
 logging.basicConfig(
