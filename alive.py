@@ -1,11 +1,15 @@
 from flask import Flask
 from threading import Thread
+import requests
+from bs4 import BeautifulSoup
+import telegram
+
 
 app = Flask('')
 
 @app.route('/')
 def home():
-    return "I'm alive"
+    return "I'm Alive... Fuck Off"
 
 def run():
   app.run(host='0.0.0.0',port=80)
