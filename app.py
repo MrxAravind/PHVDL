@@ -133,8 +133,8 @@ async def video(client, message):
                 if check_db(video_url):
                       data = get_info(video_url)
                       if chat_id != LINK_ID:
-                          text = f"Someone Tried to Download A Video Thats Already in DB\nSending Copy of {data['File_Name']}"
-                          await app.send_message(LOG_ID,text)
+                          text = f"Sending Copy of {data['File_Name']} @ {chat_id}"
+                          await app.send_message(LOG_ID,text,reply_to_message_id=data["PICID"])
                           await app.copy_message(chat_id,DUMP_ID,data["DMID"])
                 else:
                     status = await status.edit_text(f"Processed {len(uploading)} Out Of {len(video_urls)}")
@@ -151,23 +151,18 @@ async def video(client, message):
                                 uploading.append(exact_file_path.split("/", 2)[-1])
                                 video = await upload_video(app, chat_id, exact_file_path, thumbnail_path)
                                 if video:
+                                 text = f"""<b>DMID:<b> {DM.id}\n<b>DUMP_ID:<b> {DUMP_ID}\n<b>URL:<b> {video_url}\n<b>File_Name:<b> {exact_file_path.split("/", 2)[-1]}\n<b>CHAT_ID:<b> {chat_id}"""
+                                 PIC = await app.send_photo(LOG_ID,photo=thumbnail_path,caption=text)
                                  DM = await app.copy_message(DUMP_ID, video.chat.id,video.id,caption=f"""<b>File_Name:</b> <code>{exact_file_path.split("/", 2)[-1]}</code>\n<b>CHAT_ID:</b> <code>{chat_id}</code>""")
                                  result = {
                                     "DMID": DM.id,
+                                    "PICID":PIC.id,
                                     "DUMP_ID": DUMP_ID,
                                     "URL": video_url,
                                     "File_Name": exact_file_path.split("/", 2)[-1],
                                     "CHAT_ID": chat_id,
                                  }
                                  insert_document(db, collection_name, result)
-                                 text = f""" 
-                                    <b>DMID:<b> {DM.id}\n
-                                    <b>DUMP_ID:<b> {DUMP_ID}\n
-                                    <b>URL:<b> {video_url}\n
-                                    <b>File_Name:<b> {exact_file_path.split("/", 2)[-1]}\n
-                                    <b>CHAT_ID:<b> {chat_id}
-                                 """
-                                 await app.send_photo(LOG_ID,photo=thumbnail_path,caption=text)
                                  logging.info("Updated to Database!!")               
                                  os.remove(exact_file_path)
                                  os.remove(thumbnail_path)
