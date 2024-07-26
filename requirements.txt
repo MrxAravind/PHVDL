@@ -4,3 +4,5 @@ aria2
 TgCrypto
 static_ffmpeg
 speedtest-cli
+flask
+python-telegram-bot
