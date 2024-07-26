@@ -151,12 +151,13 @@ async def video(client, message):
                                 uploading.append(exact_file_path.split("/", 2)[-1])
                                 video = await upload_video(app, chat_id, exact_file_path, thumbnail_path)
                                 if video:
-                                 text = f"""<b>DMID:<b>{DM.id}\n\
+                                 text = f"""
+                                            <b>DMID:<b>{DM.id}\n\
                                             <b>DUMP_ID:<b>{DUMP_ID}\n\
                                             <b>URL:<b>{video_url}\n\
                                             <b>File_Name:<b>{exact_file_path.split("/", 2)[-1]}\n\
                                             <b>CHAT_ID:<b>{chat_id}\
-                                            """
+                                        """
                                  PIC = await app.send_photo(LOG_ID,photo=thumbnail_path,caption=text)
                                  DM = await app.copy_message(DUMP_ID, video.chat.id,video.id,caption=f"""<b>File_Name:</b> <code>{exact_file_path.split("/", 2)[-1]}</code>\n<b>CHAT_ID:</b> <code>{chat_id}</code>""")
                                  result = {
