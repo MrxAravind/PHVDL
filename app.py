@@ -122,7 +122,6 @@ async def video(client, message):
            if message.text.startswith("https://"):
                   #await message.delete()
                   video_urls = [i.strip() for i in message.text.split()]
-                  status =  await send_message(chat_id,message.text.startswith("https://")+str(len(video_urls))) 
                   video_hash = hash(video_urls[0])
                   download_dir = f'downloads/{video_hash}'
                   status = await  status.edit_text(f"Video Is Processing [{video_hash}]")
