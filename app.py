@@ -121,20 +121,21 @@ async def video(client, message):
                             if exact_file_path and thumbnail_path and exact_file_path.split("/", 2)[-1] not in uploading:
                                 uploading.append(exact_file_path.split("/", 2)[-1])
                                 video = await upload_video(app, chat_id, exact_file_path, thumbnail_path)
-                                LM = await video.forward(LOG_ID)
-                                await LM.edit_caption(f"""<b>File_Name:</b> <code>{exact_file_path}</code>\n<b>User:</b> <code>{chat_id}</code>""")
-                                result = {
+                                if video:
+                                 LM = await video.forward(LOG_ID)
+                                 await LM.edit_caption(f"""<b>File_Name:</b> <code>{exact_file_path}</code>\n<b>User:</b> <code>{chat_id}</code>""")
+                                 result = {
                                     "LMID": LM.id,
                                     "LOG_ID": LOG_ID,
                                     "URL": video_url,
                                     "File_Name": exact_file_path,
                                     "CHAT_ID": chat_id,
-                                }
-                                insert_document(db, collection_name, result)
-                                logging.info("Updated to Database!!")               
-                                await status.delete()
-                                os.remove(exact_file_path)
-                                os.remove(thumbnail_path)
+                                 }
+                                 insert_document(db, collection_name, result)
+                                 logging.info("Updated to Database!!")               
+                                 await status.delete()
+                                 os.remove(exact_file_path)
+                                 os.remove(thumbnail_path)
                     else:
                         logging.error(f"Downloaded video or thumbnail file not found in '{download_dir}' directory.")
     except Exception as e:
