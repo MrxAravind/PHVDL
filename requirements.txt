@@ -7,3 +7,4 @@ speedtest-cli
 flask
 bs4
 python-telegram-bot
+python-dotenv
