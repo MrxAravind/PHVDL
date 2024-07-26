@@ -69,8 +69,9 @@ def upload_progress(current, total):
 
 async def upload_video(app, chat_id, file_path, thumbnail_path):
     try:
-        await app.send_video(chat_id, file_path, caption=file_path.split("/", 2)[-1], thumb=thumbnail_path, progress=upload_progress)
+        video = await app.send_video(chat_id, file_path, caption=file_path.split("/", 2)[-1], thumb=thumbnail_path, progress=upload_progress)
         logging.info(f"Video uploaded successfully to chat ID: {chat_id}")
+        return video
     except Exception as e:
         logging.error(f"Failed to upload video to chat ID: {chat_id}. Error: {e}")
         raise
