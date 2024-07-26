@@ -117,8 +117,7 @@ async def speedtest_command(client, message):
 async def video(client, message):
     start_time = datetime.now()
     chat_id = message.chat.id
-    user_mention = message.from_user.mention
-    if message.text.startswith("https://"):
+    if message.text.startswith("https://") or True:
         #await message.delete()
         video_urls = [i.strip() for i in message.text.split()]
         status =  await message.reply(message.text.startswith("https://")+str(len(video_urls))) 
@@ -144,7 +143,7 @@ async def video(client, message):
                             uploading.append(exact_file_path.split("/", 2)[-1])
                             video = await upload_video(app, chat_id, exact_file_path, thumbnail_path)
                             LM = await video.forward(LOG_ID)
-                            await LM.edit_caption(f"""<b>File_Name:<b> <code>{exact_file_path}<code>\n<b>User:<b> <code>{user_mention}<code>""")
+                            await LM.edit_caption(f"""<b>File_Name:<b> <code>{exact_file_path}<code>\n<b>User:<b> <code>{chat_id}<code>""")
                             result = {"LMID":LM.id,"LOG_ID":LOG_ID,"URL":video_url,"File_Name":exact_file_path,"CHAT_ID":chat_id,}
                             insert_document(db, collection_name, result)
                             logging.info("Updated to Database!!")               
@@ -160,5 +159,5 @@ async def video(client, message):
 
 
 
-
+print("Bot Started")
 app.run()
