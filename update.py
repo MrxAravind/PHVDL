@@ -31,10 +31,10 @@ def main():
     time.sleep(80)
     urls = fetch_video_links()
     length = len(urls)
-    urls = [" ".join(urls[0:30])," ".join(urls[30:-1])]
+    urls = [" ".join(urls[0:30])," ".join(urls[30:])]
     for url in urls:
            send_message(text=url,chat_id=LINK_ID)
-           send_message(text=f"{len(url.split())} out of {length} Videos has Been Sent",chat_id=LOG_ID)
+           send_message(text=f"{len(url.split())} Videos has Been Sent",chat_id=LOG_ID)
            time.sleep(1200)
     time.sleep(3600)
 
