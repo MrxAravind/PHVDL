@@ -20,7 +20,7 @@ def fetch_video_links():
 
 async def main():
   while True:
-    time.sleep(30)
+    await asyncio.sleep(30)
     urls = fetch_video_links()
     length = len(urls)
     urls = [" ".join(urls[0:30])," ".join(urls[30:-1])]
@@ -28,8 +28,9 @@ async def main():
     async with bot:
         for url in urls:
            await bot.send_message(text=url,chat_id=DUMP_ID)
+            await asyncio.sleep(600)
            await bot.send_message(text=f"{len(url.split())} out of {length} Videos has Been Sent",chat_id=LOG_ID)
-    time.sleep(3600)
+    await asyncio.sleep(3600)
 
 if __name__ == '__main__':
     asyncio.run(main())
