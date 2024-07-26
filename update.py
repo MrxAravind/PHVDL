@@ -28,7 +28,7 @@ async def main():
     async with bot:
         for url in urls:
            await bot.send_message(text=url,chat_id=DUMP_ID)
-           await bot.send_message(text=f"{len(url.split())} out of {length}} Videos has Been Sent",chat_id=LOG_ID)
+           await bot.send_message(text=f"{len(url.split())} out of {length} Videos has Been Sent",chat_id=LOG_ID)
     time.sleep(3600)
 
 if __name__ == '__main__':
