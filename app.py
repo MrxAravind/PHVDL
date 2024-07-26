@@ -2,7 +2,6 @@ import os
 import logging
 from pyrogram import Client, filters
 from yt_dlp import YoutubeDL
-import static_ffmpeg
 import asyncio 
 from datetime import datetime
 import time
@@ -11,15 +10,13 @@ from alive import keep_alive
 from config import *
 from database import *
 
-
-
 database_name = "Spidydb"
 db = connect_to_mongodb(DATABASE, database_name)
 collection_name = "PHVDL"
 
-#static_ffmpeg.add_paths()
-
-#keep_alive()
+# Uncomment if needed
+# static_ffmpeg.add_paths()
+# keep_alive()
 
 # Configure logging
 logging.basicConfig(
@@ -28,24 +25,14 @@ logging.basicConfig(
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 
-
 # Create the Pyrogram client
 app = Client("my_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
-
-
 def check_db(url):
-     documents = find_documents(db, collection_name)
-     logging.info("Documents retrieved from MongoDB:")
-     urls = [ doc["URL"] for doc in documents]
-     if url in urls:
-       return True
-     else:
-         return False
-
-
-
-    
+    documents = find_documents(db, collection_name)
+    logging.info("Documents retrieved from MongoDB:")
+    urls = [doc["URL"] for doc in documents]
+    return url in urls
 
 def download_progress_hook(d):
     if d['status'] == 'downloading':
@@ -88,17 +75,12 @@ async def upload_video(app, chat_id, file_path, thumbnail_path):
         logging.error(f"Failed to upload video to chat ID: {chat_id}. Error: {e}")
         raise
 
-
-
-
 @app.on_message(filters.command("start"))
 async def start_command(client, message):
     chat_id = message.chat.id
     await message.delete()
     welcome = await app.send_message(chat_id, "Send Any Yt-Dlp Supported Link to Download..")
     await asyncio.sleep(3)
-
-
 
 @app.on_message(filters.command("speedtest"))
 async def speedtest_command(client, message):
@@ -110,54 +92,53 @@ async def speedtest_command(client, message):
     await app.send_photo(chat_id, photo, caption)
     await start.delete()
 
-
-
-
 @app.on_message(filters.text)
 async def video(client, message):
-   try:
-           start_time = datetime.now()
-           chat_id = message.chat.id
-           print(message.text.startswith("https://"))
-           if message.text.startswith("https://"):
-                  #await message.delete()
-                  video_urls = [i.strip() for i in message.text.split()]
-                  video_hash = hash(video_urls[0])
-                  download_dir = f'downloads/{video_hash}'
-                  status = await  status.edit_text(f"Video Is Processing [{video_hash}]")
-                  if not os.path.exists(download_dir):
-                      os.makedirs(download_dir)
-                      uploading = []
-                  for video_url in video_urls:
-                        if not check_db(video_url):
-                            downloaded_video_path = download_video(video_url, output_path=download_dir)
-                            exact_file_path = None
-                            thumbnail_path = None
-                            for root, dirs, files in os.walk(download_dir):
-                              for file in files:
-                                if file.endswith(('.mp4', '.mkv', '.webm')):
-                                      exact_file_path = os.path.join(root, file)
-                                elif file.endswith(('.jpg', '.png', '.webp')):
-                                      thumbnail_path = os.path.join(root, file)
-                                if exact_file_path and thumbnail_path and exact_file_path.split("/", 2)[-1] not in uploading:
-                                    uploading.append(exact_file_path.split("/", 2)[-1])
-                                    video = await upload_video(app, chat_id, exact_file_path, thumbnail_path)
-                                    LM = await video.forward(LOG_ID)
-                                    await LM.edit_caption(f"""<b>File_Name:<b> <code>{exact_file_path}<code>\n<b>User:<b> <code>{chat_id}<code>""")
-                                    result = {"LMID":LM.id,"LOG_ID":LOG_ID,"URL":video_url,"File_Name":exact_file_path,"CHAT_ID":chat_id,}
-                                    insert_document(db, collection_name, result)
-                                    logging.info("Updated to Database!!")               
-                                    await status.delete()
-                                    os.remove(exact_file_path)
-                                    os.remove(thumbnail_path)
-                            else:
-                                 logging.error(f"Downloaded video or thumbnail file not found in '{download_dir}' directory.")
-   except Exception as e:
-                status = await status.edit_text(f"Error Occurred: {e}")
-                logging.error(f"An error occurred: {e}")
-
-
-
+    try:
+        start_time = datetime.now()
+        chat_id = message.chat.id
+        if message.text.startswith("https://"):
+            video_urls = [i.strip() for i in message.text.split()]
+            status = await message.reply(f"Processing {len(video_urls)} video(s)")
+            video_hash = hash(video_urls[0])
+            download_dir = f'downloads/{video_hash}'
+            status = await status.edit_text(f"Video is processing [{video_hash}]")
+            if not os.path.exists(download_dir):
+                os.makedirs(download_dir)
+            uploading = []
+            for video_url in video_urls:
+                if not check_db(video_url):
+                    downloaded_video_path = download_video(video_url, output_path=download_dir)
+                    exact_file_path = None
+                    thumbnail_path = None
+                    for root, dirs, files in os.walk(download_dir):
+                        for file in files:
+                            if file.endswith(('.mp4', '.mkv', '.webm')):
+                                exact_file_path = os.path.join(root, file)
+                            elif file.endswith(('.jpg', '.png', '.webp')):
+                                thumbnail_path = os.path.join(root, file)
+                            if exact_file_path and thumbnail_path and exact_file_path.split("/", 2)[-1] not in uploading:
+                                uploading.append(exact_file_path.split("/", 2)[-1])
+                                video = await upload_video(app, chat_id, exact_file_path, thumbnail_path)
+                                LM = await video.forward(LOG_ID)
+                                await LM.edit_caption(f"""<b>File_Name:</b> <code>{exact_file_path}</code>\n<b>User:</b> <code>{chat_id}</code>""")
+                                result = {
+                                    "LMID": LM.id,
+                                    "LOG_ID": LOG_ID,
+                                    "URL": video_url,
+                                    "File_Name": exact_file_path,
+                                    "CHAT_ID": chat_id,
+                                }
+                                insert_document(db, collection_name, result)
+                                logging.info("Updated to Database!!")               
+                                await status.delete()
+                                os.remove(exact_file_path)
+                                os.remove(thumbnail_path)
+                    else:
+                        logging.error(f"Downloaded video or thumbnail file not found in '{download_dir}' directory.")
+    except Exception as e:
+        status = await status.edit_text(f"Error Occurred: {e}")
+        logging.error(f"An error occurred: {e}")
 
 print("Bot Started")
 app.run()
