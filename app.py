@@ -47,8 +47,8 @@ def send_message(app,urls):
 def link_gen(bot):
     while True:
         urls = fetch_video_links()
-        logging.info(len(urls))
         time.sleep(30)
+        send_message(bot,len(urls))
         send_message(bot,urls)
         logging.info("Fetched and Sent Links")
         time.sleep(3600)  # Sleep for 1 hourdef keep_alive():  
