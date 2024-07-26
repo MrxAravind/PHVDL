@@ -28,7 +28,7 @@ def send_message(text,chat_id):
 
 def main():
   while True:
-    time.sleep(30)
+    time.sleep(80)
     urls = fetch_video_links()
     length = len(urls)
     urls = [" ".join(urls[0:30])," ".join(urls[30:-1])]
