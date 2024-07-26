@@ -8,9 +8,6 @@ from datetime import datetime
 import time
 from speed import *
 from alive import keep_alive 
-import requests
-from bs4 import BeautifulSoup
-from threading import Thread
 
 static_ffmpeg.add_paths()
 
@@ -31,32 +28,6 @@ API_HASH = "b3611c291bf82d917637d61e4a136535"
 # Create the Pyrogram client
 app = Client("my_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
-LOG_ID = -1002167369698
-
-def fetch_video_links():
-    base_url = "https://cf-proxy.mrspidyxd.workers.dev/?host="
-    url = "https://www.pornhub.com"
-    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"}
-    response = requests.get(base_url + url, headers=headers)
-    soup = BeautifulSoup(response.content, 'html.parser')
-    return [div.find('a', class_='thumbnailTitle')['href'].replace("https://cf-proxy.mrspidyxd.workers.dev", url).split("&")[0] for div in soup.find_all('div', class_='vidTitleWrapper') if div.find('a', class_='thumbnailTitle')]
-
-def send_message(app,urls):
-    app.send_message(LOG_ID,urls)
-
-def link_gen(bot):
-    while True:
-        urls = fetch_video_links()
-        time.sleep(60)
-        send_message(bot," ".join(urls))
-        logging.info("Fetched and Sent Links")
-        time.sleep(3600)  # Sleep for 1 hourdef keep_alive():  
-   
-    
-def autobot(bot):
-    logging.info("Inside Thread")
-    t = Thread(target=link_gen,args=(bot,))
-    t.start()
 
 
 def download_progress_hook(d):
@@ -154,10 +125,4 @@ async def video(client, message):
                 logging.error(f"An error occurred: {e}")
 
 
-async def main():
-    print("Bot Started")
-    await app.start()
-    autobot(app)
-    await app.idle()
-    
-app.run(main())
+app.run()
