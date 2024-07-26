@@ -134,7 +134,7 @@ async def video(client, message):
                       data = get_info(video_url)
                       if chat_id != LINK_ID:
                           text = f"Sending Copy of {data['File_Name']} @ {chat_id}"
-                          await app.send_message(LOG_ID,text,reply_to_message_id=data["PICID"])
+                          await app.send_message(LOG_ID,text)
                           await app.copy_message(chat_id,DUMP_ID,data["DMID"])
                 else:
                     status = await status.edit_text(f"Processed {len(uploading)} Out Of {len(video_urls)}")
