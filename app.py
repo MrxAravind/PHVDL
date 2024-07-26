@@ -159,7 +159,7 @@ async def video(client, message):
                                     "File_Name": exact_file_path.split("/", 2)[-1],
                                     "CHAT_ID": chat_id,
                                  }
-                                 insert_document(db, collection_nam.e, result)
+                                 insert_document(db, collection_name, result)
                                  logging.info("Updated to Database!!")               
                                  os.remove(exact_file_path)
                                  os.remove(thumbnail_path)
