@@ -127,7 +127,7 @@ async def video(client, message):
                                     "LMID": LM.id,
                                     "LOG_ID": LOG_ID,
                                     "URL": video_url,
-                                    "File_Name": exact_file_path,
+                                    "File_Name": exact_file_path.split("/", 2)[-1],
                                     "CHAT_ID": chat_id,
                                  }
                                  insert_document(db, collection_name, result)
