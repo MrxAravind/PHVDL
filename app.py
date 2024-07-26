@@ -148,16 +148,16 @@ async def video(client, message):
                             elif file.endswith(('.jpg', '.png', '.webp')):
                                 thumbnail_path = os.path.join(root, file)
                             if exact_file_path and thumbnail_path and exact_file_path.split("/", 2)[-1] not in uploading:
-                                uploading.append(exact_file_path.split("/", 2)[-1])
-                                video = await upload_video(app, chat_id, exact_file_path, thumbnail_path)
-                                if video:
-                                 text = f"""
-                                            <b>DMID:<b>{DM.id}\n\
-                                            <b>DUMP_ID:<b>{DUMP_ID}\n\
-                                            <b>URL:<b>{video_url}\n\
-                                            <b>File_Name:<b>{exact_file_path.split("/", 2)[-1]}\n\
-                                            <b>CHAT_ID:<b>{chat_id}\
-                                        """
+                              uploading.append(exact_file_path.split("/", 2)[-1])
+                              video = await upload_video(app, chat_id, exact_file_path, thumbnail_path)
+                                 if video:
+                                     text = f"""
+                                        <b>DMID:</b>{DM.id}\n\
+                                        <b>DUMP_ID:</b>{DUMP_ID}\n\
+                                        <b>URL:</b>{video_url}\n\
+                                        <b>File_Name:</b>{exact_file_path.split("/", 2)[-1]}\n\
+                                        <b>CHAT_ID:</b>{chat_id}\
+                                    """
                                  PIC = await app.send_photo(LOG_ID,photo=thumbnail_path,caption=text)
                                  DM = await app.copy_message(DUMP_ID, video.chat.id,video.id,caption=f"""<b>File_Name:</b> <code>{exact_file_path.split("/", 2)[-1]}</code>\n<b>CHAT_ID:</b> <code>{chat_id}</code>""")
                                  result = {
@@ -168,7 +168,7 @@ async def video(client, message):
                                     "File_Name": exact_file_path.split("/", 2)[-1],
                                     "CHAT_ID": chat_id,
                                  }
-                                 insert_document(db, collection_name, result)
+                                 insert_document(db, collection_nam.e, result)
                                  logging.info("Updated to Database!!")               
                                  os.remove(exact_file_path)
                                  os.remove(thumbnail_path)
