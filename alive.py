@@ -1,10 +1,15 @@
+import logging
 import time 
 from flask import Flask
 from threading import Thread
 import requests
 from bs4 import BeautifulSoup
 
-
+logging.basicConfig(
+    filename='video_downloader.log',
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 
 app = Flask('')
 
