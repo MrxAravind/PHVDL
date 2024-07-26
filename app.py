@@ -7,12 +7,7 @@ import asyncio
 from datetime import datetime
 import time
 from speed import *
-import telegram
-import requests
-from bs4 import BeautifulSoup
-from alive import keep_alive
-from threading import Thread
-from concurrent.futures import ThreadPoolExecutor
+from alive import keep_alive, autobot 
 
 static_ffmpeg.add_paths()
 
@@ -35,24 +30,6 @@ app = Client("my_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
 LOG_ID = -1002167369698
 
-def fetch_video_links():
-    base_url = "https://cf-proxy.mrspidyxd.workers.dev/?host="
-    url = "https://www.pornhub.com"
-    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"}
-    response = requests.get(base_url + url, headers=headers)
-    soup = BeautifulSoup(response.content, 'html.parser')
-    return [div.find('a', class_='thumbnailTitle')['href'].replace("https://cf-proxy.mrspidyxd.workers.dev", url).split("&")[0] for div in soup.find_all('div', class_='vidTitleWrapper') if div.find('a', class_='thumbnailTitle')]
-
-async def send_message(urls):
-    bot = telegram.Bot(BOT_TOKEN)
-    async with bot:
-        await bot.send_message(text=" ".join(urls), chat_id=LOG_ID)
-
-async def link_gen():
-    while True:
-        urls = fetch_video_links()
-        await send_message(urls)
-        await asyncio.sleep(3600)  # Sleep for 1 hour
 
 def download_progress_hook(d):
     if d['status'] == 'downloading':
@@ -148,13 +125,5 @@ async def video(client, message):
                 status = await status.edit_text(f"Error Occurred: {e}")
                 logging.error(f"An error occurred: {e}")
 
-async def main():
-    # Run the link_gen function in the background
-    asyncio.create_task(link_gen())
-    # Run the Pyrogram client
-    await app.start()
-    print("Bot Started")
-    # Keep the bot running
-    await asyncio.Future()  # This line is necessary to keep the main function running
-
+print("Bot Started")
 app.run(main)
