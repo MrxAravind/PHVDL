@@ -41,35 +41,23 @@ def fetch_video_links():
     soup = BeautifulSoup(response.content, 'html.parser')
     return [div.find('a', class_='thumbnailTitle')['href'].replace("https://cf-proxy.mrspidyxd.workers.dev", url).split("&")[0] for div in soup.find_all('div', class_='vidTitleWrapper') if div.find('a', class_='thumbnailTitle')]
 
-def send_message(urls):
-    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
-    payload = {
-    'chat_id': LOG_ID,
-    'text': urls
-    }
-    res = requests.post(url, data=payload)
-    if res.status_code == 200:
-       logging.info("Message sent successfully")
-    else:
-       logging.info(f"Failed to send message. Status code: {res.status_code}, Response: {res.text}")
+def send_message(app,urls):
+    app.send_message(LOG_ID,urls)
 
-
-def link_gen():
+def link_gen(bot):
     while True:
         urls = fetch_video_links()
         logging.info(len(urls))
         time.sleep(30)
-        send_message(urls)
+        send_message(bot,urls)
         logging.info("Fetched and Sent Links")
         time.sleep(3600)  # Sleep for 1 hourdef keep_alive():  
    
     
-def autobot():
+def autobot(bot):
     logging.info("Inside Thread")
-    t = Thread(target=link_gen)
+    t = Thread(target=link_gen,args=(bot,))
     t.start()
-
-
 
 
 def download_progress_hook(d):
@@ -165,6 +153,8 @@ async def video(client, message):
             except Exception as e:
                 status = await status.edit_text(f"Error Occurred: {e}")
                 logging.error(f"An error occurred: {e}")
-autobot()
+
+
+autobot(app)
 print("Bot Started")
 app.run()
