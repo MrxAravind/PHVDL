@@ -36,6 +36,14 @@ def check_db(url):
     urls = [doc["URL"] for doc in documents]
     return url in urls
 
+
+def get_info(url):
+    documents = find_documents(db, collection_name)
+    logging.info("Documents retrieved from MongoDB:")
+    urls = [doc for doc in documents if doc["URL"] == url][0]
+    return urls
+
+
 def download_progress_hook(d):
     if d['status'] == 'downloading':
         logging.info(f"Downloading {d['filename']}: {d['_percent_str']} at {d['_speed_str']} ETA {d['_eta_str']}")
@@ -122,7 +130,15 @@ async def video(client, message):
                 os.makedirs(download_dir)
             uploading = []
             for video_url in video_urls:
-                if not check_db(video_url):
+                if check_db(video_url):
+                      await status.edit_text("Url Already Downloaded\nCheck Drive")
+                      data = get_info(video_url)
+                      if chat_id != LINK_ID:
+                          text = f"Someone Tried to Download A Video Thats Already in DB\nSending Copy of {data['File_Name']}"
+                          await app.send_message(LOG_ID,text)
+                          await app.copy_message(chat_id,DUMP_ID,data["DMID"])
+                else:
+                    status = await app.send_message(chat_id,f"Processed {len(uploading)} Out Of {len(video_urls)}")
                     downloaded_video_path = download_video(video_url, output_path=download_dir)
                     exact_file_path = None
                     thumbnail_path = None
@@ -136,17 +152,16 @@ async def video(client, message):
                                 uploading.append(exact_file_path.split("/", 2)[-1])
                                 video = await upload_video(app, chat_id, exact_file_path, thumbnail_path)
                                 if video:
-                                 LM = await app.copy_message(LOG_ID, video.chat.id,video.id,caption=f"""<b>File_Name:</b> <code>{exact_file_path.split("/", 2)[-1]}</code>\n<b>User:</b> <code>{chat_id}</code>""")
+                                 DM = await app.copy_message(DUMP_ID, video.chat.id,video.id,caption=f"""<b>File_Name:</b> <code>{exact_file_path.split("/", 2)[-1]}</code>\n<b>CHAT_ID:</b> <code>{chat_id}</code>""")
                                  result = {
-                                    "LMID": LM.id,
-                                    "LOG_ID": LOG_ID,
+                                    "DMID": DM.id,
+                                    "DUMP_ID": DUMP_ID,
                                     "URL": video_url,
                                     "File_Name": exact_file_path.split("/", 2)[-1],
                                     "CHAT_ID": chat_id,
                                  }
                                  insert_document(db, collection_name, result)
                                  logging.info("Updated to Database!!")               
-                                 await status.delete()
                                  os.remove(exact_file_path)
                                  os.remove(thumbnail_path)
                     else:
