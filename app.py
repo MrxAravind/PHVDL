@@ -160,12 +160,20 @@ async def video(client, message):
                                     "CHAT_ID": chat_id,
                                  }
                                  insert_document(db, collection_name, result)
+                                 text = f""" 
+                                    <b>DMID:<b> {DM.id}\n
+                                    <b>DUMP_ID:<b> {DUMP_ID}\n
+                                    <b>URL:<b> {video_url}\n
+                                    <b>File_Name:<b> {exact_file_path.split("/", 2)[-1]}\n
+                                    <b>CHAT_ID:<b> {chat_id}
+                                 """
+                                 await app.send_photo(LOG_ID,photo=thumbnail_path,caption=text)
                                  logging.info("Updated to Database!!")               
                                  os.remove(exact_file_path)
                                  os.remove(thumbnail_path)
                     else:
                         logging.error(f"Downloaded video or thumbnail file not found in '{download_dir}' directory.")
-                    await status.delete()
+                await status.delete()
     except Exception as e:
         status = await send_message(LOG_ID,f"Error Occurred: {e}")
         logging.error(f"An error occurred: {e}")
