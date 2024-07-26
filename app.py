@@ -10,7 +10,7 @@ from alive import keep_alive
 from config import *
 from database import *
 import static_ffmpeg
-
+from sysinfo import *
 
 database_name = "Spidydb"
 db = connect_to_mongodb(DATABASE, database_name)
@@ -96,6 +96,17 @@ async def speedtest_command(client, message):
     await app.send_photo(chat_id, photo, caption)
     await start.delete()
 
+
+
+@app.on_message(filters.command("stats"))
+async def stats_command(client, message):
+    chat_id = message.chat.id
+    info = get_system_info()
+    await app.send_message(chat_id,info)
+
+
+
+    
 @app.on_message(filters.text)
 async def video(client, message):
     try:
