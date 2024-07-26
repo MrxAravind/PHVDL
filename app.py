@@ -28,7 +28,7 @@ logging.basicConfig(
 )
 
 # Create the Pyrogram client
-app = Client("my_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
+app = Client("my_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN,workers=100)
 
 def check_db(url):
     documents = find_documents(db, collection_name)
