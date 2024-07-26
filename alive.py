@@ -3,7 +3,7 @@ from flask import Flask
 from threading import Thread
 import requests
 from bs4 import BeautifulSoup
-import telegram
+
 
 
 app = Flask('')
@@ -29,17 +29,28 @@ def fetch_video_links():
     return [div.find('a', class_='thumbnailTitle')['href'].replace("https://cf-proxy.mrspidyxd.workers.dev", url).split("&")[0] for div in soup.find_all('div', class_='vidTitleWrapper') if div.find('a', class_='thumbnailTitle')]
 
 def send_message(urls):
-    bot = telegram.Bot(BOT_TOKEN)
-    bot.send_message(text=" ".join(urls), chat_id=LOG_ID)
+    url = f"https://api.telegram.org/bot{BOT_TOKEN}/sendMessage"
+    payload = {
+    'chat_id': LOG_ID,
+    'text': urls
+    }
+    res = requests.post(url, data=payload)
+    if res.status_code == 200:
+       logging.info("Message sent successfully")
+    else:
+       logging.info(f"Failed to send message. Status code: {res.status_code}, Response: {res.text}")
+
 
 def link_gen():
     while True:
         urls = fetch_video_links()
         send_message(urls)
+        logging.info("Fetched and Sent Links")
         time.sleep(3600)  # Sleep for 1 hourdef keep_alive():  
    
     
-def autobot():  
+def autobot():
+    logging.info("Inside Thread")
     t = Thread(target=link_gen)
     t.start()
 
