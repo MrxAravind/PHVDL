@@ -57,6 +57,7 @@ def send_message(urls):
 def link_gen():
     while True:
         urls = fetch_video_links()
+        logging.info(len(urls))
         time.sleep(30)
         send_message(urls)
         logging.info("Fetched and Sent Links")
