@@ -15,8 +15,8 @@ db = connect_to_mongodb(DATABASE, database_name)
 collection_name = "PHVDL"
 
 # Uncomment if needed
-# static_ffmpeg.add_paths()
-# keep_alive()
+static_ffmpeg.add_paths()
+keep_alive()
 
 # Configure logging
 logging.basicConfig(
@@ -55,6 +55,7 @@ def download_video(url, output_path='downloads'):
             'playlistend': 100,  # Limit the number of videos to download to 100
             'writethumbnail': True,  # Download the thumbnail
             'progress_hooks': [download_progress_hook],
+            'quiet':True,
         }
         with YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
