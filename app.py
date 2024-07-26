@@ -124,6 +124,6 @@ async def video(client, message):
             except Exception as e:
                 status = await status.edit_text(f"Error Occurred: {e}")
                 logging.error(f"An error occurred: {e}")
-autobot
+autobot()
 print("Bot Started")
 app.run()
