@@ -1,12 +1,14 @@
-import time 
+import time
 from flask import Flask
 from threading import Thread
+from datetime import datetime
+
 
 app = Flask('')
 
 @app.route('/')
 def home():
-    return f"I'm Alive... Fuck Off {time.time()}"
+    return f"I'm Alive... Fuck Off {datetime.now()}"
 
 def run():
   app.run(host='0.0.0.0',port=80)
