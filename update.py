@@ -21,10 +21,13 @@ def fetch_video_links():
 async def main():
   while True:
     time.sleep(30)
-    urls = " ".join(fetch_video_links())
+    urls = fetch_video_links()
+    len = len(urls)
+    urls = " ".join()
     bot = telegram.Bot("7199772252:AAHQfjo8VIWg2wDOCUXLdMt9klsQD_OuVx4")
     async with bot:
         await bot.send_message(text=urls,chat_id=DUMP_ID)
+        await bot.send_message(text=f"{len} Videos has Been Sent",chat_id=LOG_ID)
     time.sleep(3600)
 
 if __name__ == '__main__':
