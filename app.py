@@ -8,7 +8,7 @@ from datetime import datetime
 import time
 from speed import *
 from alive import keep_alive 
-from comfig import *
+from config import *
 from database import *
 
 
