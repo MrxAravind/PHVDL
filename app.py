@@ -7,6 +7,17 @@ import asyncio
 from datetime import datetime
 import time
 from speed import *
+import asyncio
+import telegram
+import requests
+from bs4 import BeautifulSoup
+from alive import keep_alive
+from threading import Thread
+
+static_ffmpeg.add_paths()
+
+
+keep_alive()
 
 # Configure logging
 logging.basicConfig(
@@ -23,7 +34,33 @@ API_HASH="b3611c291bf82d917637d61e4a136535"
 # Create the Pyrogram client
 app = Client("my_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
-static_ffmpeg.add_paths()  
+
+LOG_ID = -1002167369698
+
+def fetch_video_links():
+    base_url = "https://cf-proxy.mrspidyxd.workers.dev/?host="
+    url = "https://www.pornhub.com"
+    headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"}
+    response = requests.get(base_url+url, headers=headers)
+    soup = BeautifulSoup(response.content, 'html.parser')
+    return [ div.find('a', class_='thumbnailTitle')['href'].replace("https://cf-proxy.mrspidyxd.workers.dev",url).split("&")[0] for div in soup.find_all('div', class_='vidTitleWrapper') if div.find('a', class_='thumbnailTitle')]
+
+async def send_message(urls):
+    bot = telegram.Bot(BOT_TOKEN)
+    async with bot:
+        await bot.send_message(text=" ".join(urls), chat_id=LOG_ID)
+
+async def link_gen():
+    while True:
+         urls = fetch_video_links()
+         await asyncio.sleep(30)
+         await send_message(urls)
+         await asynio.sleep(3600)
+
+def autobot():  
+    t = Thread(target=link_gen)
+    t.start()
+
 
 
 # Progress hook for yt-dlp
@@ -134,4 +171,5 @@ async def video(client, message):
                 logging.error(f"An error occurred: {e}")
 
 print("Bot Started")
+autobot()
 app.run()
