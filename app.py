@@ -101,10 +101,6 @@ async def video(client, message):
     try:
         start_time = datetime.now()
         chat_id = message.chat.id
-        if message.from_user.mention:
-                user_mention = message.from_user.mention
-        else:
-            user_mention = f"Channel [{chat_id}]"
         if message.text.startswith("https://"):
             video_urls = [i.strip() for i in message.text.split()]
             await message.delete()
