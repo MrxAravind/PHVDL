@@ -9,6 +9,8 @@ from speed import *
 from alive import keep_alive 
 from config import *
 from database import *
+import static_ffmpeg
+
 
 database_name = "Spidydb"
 db = connect_to_mongodb(DATABASE, database_name)
