@@ -6,3 +6,4 @@ static_ffmpeg
 speedtest-cli
 flask
 bs4
+python-telegram-bot
