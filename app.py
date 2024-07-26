@@ -115,13 +115,13 @@ async def speedtest_command(client, message):
 
 @app.on_message(filters.text)
 async def video(client, message):
-    status =  await message.reply("Hello")
     start_time = datetime.now()
     chat_id = message.chat.id
     user_mention = message.from_user.mention
     if message.text.startswith("https://"):
-        await message.delete()
+        #await message.delete()
         video_urls = [i.strip() for i in message.text.split()]
+        status =  await message.reply(message.text.startswith("https://")+str(len(video_urls))) 
         video_hash = hash(video_urls[0])
         download_dir = f'downloads/{video_hash}'
         status = await  status.edit_text(f"Video Is Processing [{video_hash}]")
