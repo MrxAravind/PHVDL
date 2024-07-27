@@ -15,7 +15,7 @@ def home():
 def logs():
     file = "video_downloader.log"
     with open(file) as logfile:
-        return logfile.read()
+        return "<br>".join(logfile.readlines())
     
 def run():
   app.run(host='0.0.0.0',port=80)
