@@ -92,8 +92,8 @@ async def video(client, message):
                 os.makedirs(download_dir)
             uploading = []
             for video_url in video_urls:
-                if check_db(db,video_url):
-                    data = get_info(db,video_url)
+                if check_db(db,collection_name,video_url):
+                    data = get_info(db,collection_name,video_url)
                     if chat_id != LINK_ID:
                         await app.copy_message(chat_id,DUMP_ID,data["DMID"],caption=data['File_Name'])
                     if data['CHAT_ID'] != LINK_ID :
