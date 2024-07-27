@@ -8,9 +8,9 @@ from config import *
 
 def download_progress_hook(d):
     if d['status'] == 'downloading':
-        logging.info(f"Downloading {d['filename']}: {d['_percent_str']} at {d['_speed_str']} ETA {d['_eta_str']}")
+         print(f"Downloading {d['filename']}: {d['_percent_str']} at {d['_speed_str']} ETA {d['_eta_str']}")
     elif d['status'] == 'finished':
-        logging.info(f"Download complete: {d['filename']}")
+        print(f"Download complete: {d['filename']}")
 
 def download_video(url, output_path='downloads'):
     try:
@@ -31,19 +31,18 @@ def download_video(url, output_path='downloads'):
         }
         with YoutubeDL(ydl_opts) as ydl:
             ydl.download([url])
-        logging.info(f"Video downloaded successfully from URL: {url}")
+        print(f"Video downloaded successfully from URL: {url}")
         return ydl_opts['outtmpl']
     except Exception as e:
-        logging.error(f"Failed to download video from URL: {url}. Error: {e}")
+        print(f"Failed to download video from URL: {url}. Error: {e}")
 
 def upload_progress(current, total):
-    logging.info(f"Uploading: {current * 100 / total:.1f}%")
+    print(f"Uploading: {current * 100 / total:.1f}%")
 
 async def upload_video(app, chat_id, file_path, thumbnail_path):
     try:
         video = await app.send_video(chat_id, file_path, caption=file_path.split("/", 2)[-1], thumb=thumbnail_path, progress=upload_progress)
-        logging.info(f"Video uploaded successfully to chat ID: {chat_id}")
+        print(f"Video uploaded successfully to chat ID: {chat_id}")
         return video
     except Exception as e:
-        logging.error(f"Failed to upload video to chat ID: {chat_id}. Error: {e}")
-        raise
+        print(f"Failed to upload video to chat ID: {chat_id}. Error: {e}")
