@@ -44,4 +44,9 @@ def get_info(url):
     logging.info("Documents retrieved from MongoDB:")
     urls = [doc for doc in documents if doc["URL"] == url][0]
     return urls
-    
+
+
+def get_raw_info():
+    documents = find_documents(db, collection_name)
+    urls = [doc["URL"] for doc in documents]
+    return urls
