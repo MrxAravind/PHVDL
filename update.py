@@ -68,6 +68,9 @@ words =["blowjob","step_sister","step_mom","familysharing","Swap_sister","swap_m
         "gangbang","dp","breastfeeding","MLIF","japanese","deepthroat","rimming","tits","boobs",
         "milking","facial","freeuse","Lesbian","Latina","Bondage","Natural Tits","kink","squirting", "bukkake","Cuckold","Orgy","cock", "pussy", "vagina","Threesome","cuckquean", "cream pie","swallow cum","Hotwives","TiedUp","69"]
 
+
+
+pornstars = ["lolly lips"]
 nsfw_keywords = [
     "nsfw", "explicit", "nude", "porn", "sex", "xxx", "hentai", "erotic", 
     "fetish", "bdsm", "hardcore", "anal", "blowjob", "cum", "ejaculation", 
