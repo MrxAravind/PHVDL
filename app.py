@@ -10,7 +10,7 @@ from config import *
 from database import *
 import static_ffmpeg
 from video import *
-from links import start_link_gen
+from links import start_link_gen,link_gen
 
 
 # Configure logging
@@ -48,11 +48,13 @@ async def start_command(client, message):
 
 @app.on_message(filters.command("gen_link"))
 async def gen_linkcmd(client, message):
+           chat_id = message.chat.id
            await message.delete()
-           status = await app.send_message(message.chat.id, "Started Generating Links ,Soon Links will be Sent")
+           start_link_gen(db,collection_name)
+           status = await app.send_message(chat_id, "Started Generating Links ,Soon Links will be Sent")
            await asyncio.sleep(3)
            await status.delete()
-           start_gen_link(db,collection_name)
+           
            
 
     
