@@ -108,6 +108,7 @@ def main():
     logging.info("Filtered Videos:"+length)
     urls = random.sample(urls,60)
     urls = [" ".join(urls[0:30])," ".join(urls[30:])]
+    time.sleep(30)
     for url in urls:
            send_message(text=url,chat_id=LINK_ID)
            logging.info("Splited Videos:"+str(len(url.split())))
