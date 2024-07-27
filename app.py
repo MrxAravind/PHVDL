@@ -187,7 +187,7 @@ async def video(client, message):
                         logging.error(f"Downloaded video or thumbnail file not found in '{download_dir}' directory.")
             await status.delete()
     except Exception as e:
-        status = await send_message(LOG_ID,f"Error Occurred: {e}")
+        status = await app.send_message(LOG_ID,f"Error Occurred: {e}")
         logging.error(f"An error occurred: {e}")
 
 print("Bot Started")
