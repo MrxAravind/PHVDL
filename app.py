@@ -160,7 +160,7 @@ async def video(client, message):
                           await app.copy_message(chat_id,DUMP_ID,data["DMID"],caption=data['File_Name'])
                           
                 else:
-                    textst = f"Processed {len(uploading)} Out Of {len(video_urls)}"
+                    textst = f"""Processed {len(uploading)} Out Of {len(video_urls)}"""
                     if textst != status.text:
                         status = await status.edit_text(textst)
                     downloaded_video_path = download_video(video_url, output_path=download_dir)
@@ -191,7 +191,7 @@ async def video(client, message):
                     else:
                         logging.error(f"Downloaded video or thumbnail file not found in '{download_dir}' directory.")
             await status.delete()
-            await app.send_message(chat_id,"{len(uploading)} Video/s Has Uploaded")
+            await app.send_message(chat_id,f"{len(uploading)} Video/s Has Uploaded")
     except Exception as e:
         status = await app.send_message(LOG_ID,f"Error Occurred: {e}")
         logging.error(f"An error occurred: {e}")
