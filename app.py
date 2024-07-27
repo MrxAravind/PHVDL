@@ -192,7 +192,7 @@ async def video(client, message):
             await status.delete()
             ST = await app.send_message(chat_id,f"{len(uploading)} Video/s Has Uploaded")
             await app.send_message(LOG_ID,f"{len(uploading)} Video/s Has Uploaded")
-            await asyncio.time(3)
+            await asyncio.sleep(3)
             await ST.delete()
     except Exception as e:
         status = await app.send_message(LOG_ID,f"Error Occurred: {e}")
