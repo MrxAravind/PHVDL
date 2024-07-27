@@ -50,7 +50,7 @@ def fetch_models():
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
         hrefs = set(link.get('href') for link in soup.find_all('a') if link.get('href'))
-        return [base_url+href for href in hrefs if "/model/" in href or "/pornstar/" in href or "/channel/" in href][:3]
+        return [base_url+href for href in hrefs if "/model/" in href or "/pornstar/" in href or "/channel/" in href][:5]
     except requests.RequestException as e:
         print(f"An error occurred: {e}")
 
@@ -66,33 +66,33 @@ def send_message(text,chat_id):
         print("Message Sent :"+str(response.json()['ok']))
 
 
-def link_gen(db,collection_name):
+def link_gen(db,collection_name,logging):
   while True:
     urls = []
     for ph in fetch_models():
-        print(ph)
+        logging.info(ph)
         urls.extend(extract_urls(ph))
-    print("Some Recommended Videos")
+    logging.info("Some Recommended Videos")
     urls.extend(fetch_video_links())
     length = len(urls)
-    print(f"Total Videos:{length}")
+    logging.info(f"Total Videos:{length}")
     data = get_raw_url(db,collection_name)
     urls = [url for url in urls if url not in data]
     filtered = len(urls)
-    print(f"Filtered Videos:{filtered}")
+    logging.info(f"Filtered Videos:{filtered}")
     urls = random.sample(urls,60)
     urls = [" ".join(urls[0:30])," ".join(urls[30:])]
     time.sleep(3)
     for url in urls:
            send_message(text=url,chat_id=LINK_ID)
-           print("Splited Videos:"+str(len(url.split())))
+           logging.info("Splited Videos:"+str(len(url.split())))
            send_message(text=f"Total {length} Videos\nFiltered {filtered}\nNow Sent {len(url.split())}",chat_id=LOG_ID)
            time.sleep(1200)
     time.sleep(3600)
 
 
-def start_link_gen(db,collection_name):  
-    t = Thread(target=link_gen,arg=(db,collection_name))
+def start_link_gen(db,collection_name,logging):  
+    t = Thread(target=link_gen,arg=(db,collection_name,logging))
     t.start()
 
 
