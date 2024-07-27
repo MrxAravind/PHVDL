@@ -67,7 +67,7 @@ def send_message(text,chat_id):
         logging.info("Message Sent :"+str(response.json()['ok']))
 
 
-def link_gen():
+def link_gen(db,collection_name):
   while True:
     urls = []
     for ph in fetch_models():
@@ -77,7 +77,7 @@ def link_gen():
     urls.extend(fetch_video_links())
     length = len(urls)
     logging.info(f"Total Videos:{length}")
-    data = get_info()
+    data = get_raw_url(db,collection_name)
     urls = [url for url in urls if url not in data]
     filtered = len(urls)
     logging.info(f"Filtered Videos:{filtered}")
@@ -92,8 +92,8 @@ def link_gen():
     time.sleep(3600)
 
 
-def start_link_gen():  
-    t = Thread(target=link_gen)
+def start_link_gen(db,collection_name):  
+    t = Thread(target=link_gen,arg=(db,collection_name))
     t.start()
 
 
