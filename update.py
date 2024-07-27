@@ -96,7 +96,7 @@ def main():
     urls = [" ".join(urls[0:30])," ".join(urls[30:])]
     for url in urls:
            send_message(text=url,chat_id=LINK_ID)
-           send_message(text=f"Total {length} Videos\nFiltered {filtered}\nNow Sent {len(url)}"
+           send_message(text=f"Total {length} Videos\nFiltered {filtered}\nNow Sent {len(url)}",chat_id=LOG_ID)
 time.sleep(1200)
     time.sleep(3600)
 
