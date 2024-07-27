@@ -11,6 +11,16 @@ from config import *
 from database import *
 import static_ffmpeg
 from sysinfo import *
+from video import *
+
+
+# Configure logging
+logging.basicConfig(
+    filename='PHVDL.log',
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
+
 
 database_name = "Spidydb"
 db = connect_to_mongodb(DATABASE, database_name)
@@ -28,76 +38,6 @@ app = Client("my_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN,wor
 
 
 
-def extract_urls(url):
-    temp_file = "dump.txt"
-    os.system(f"yt-dlp --flat-playlist -j {url} > {temp_file}")
-    urls = []
-    with open(temp_file) as file:
-            for line in file:
-                parts = line.strip().split()
-                for i in range(len(parts)):
-                    if '"url":' == parts[i]:
-                        # Extract and write the URL to the output file
-                        urls.append(parts[i + 1].strip('"",'))
-    os.remove(temp_file)
-    return urls
-
-def check_db(url):
-    documents = find_documents(db, collection_name)
-    logging.info("Documents retrieved from MongoDB:")
-    urls = [doc["URL"] for doc in documents]
-    return url in urls
-
-
-def get_info(url):
-    documents = find_documents(db, collection_name)
-    logging.info("Documents retrieved from MongoDB:")
-    urls = [doc for doc in documents if doc["URL"] == url][0]
-    return urls
-
-
-def download_progress_hook(d):
-    if d['status'] == 'downloading':
-        logging.info(f"Downloading {d['filename']}: {d['_percent_str']} at {d['_speed_str']} ETA {d['_eta_str']}")
-    elif d['status'] == 'finished':
-        logging.info(f"Download complete: {d['filename']}")
-
-def download_video(url, output_path='downloads'):
-    try:
-        ydl_opts = {
-            'format': 'bestvideo[height<=480][ext=mp4]+bestaudio[ext=m4a]/best[height<=480][ext=mp4]',
-            'outtmpl': os.path.join(output_path, '%(title)s.%(ext)s'),
-            'external_downloader': 'aria2c',
-            'external_downloader_args': [
-                '-j', '16',
-                '-x', '16',  # Number of connections per server
-                '-s', '16',  # Number of connections overall
-                '-k', '5M'   # Piece size
-            ],
-            'playlistend': 100,  # Limit the number of videos to download to 100
-            'writethumbnail': True,  # Download the thumbnail
-            'progress_hooks': [download_progress_hook],
-            
-        }
-        with YoutubeDL(ydl_opts) as ydl:
-            ydl.download([url])
-        logging.info(f"Video downloaded successfully from URL: {url}")
-        return ydl_opts['outtmpl']
-    except Exception as e:
-        logging.error(f"Failed to download video from URL: {url}. Error: {e}")
-
-def upload_progress(current, total):
-    logging.info(f"Uploading: {current * 100 / total:.1f}%")
-
-async def upload_video(app, chat_id, file_path, thumbnail_path):
-    try:
-        video = await app.send_video(chat_id, file_path, caption=file_path.split("/", 2)[-1], thumb=thumbnail_path, progress=upload_progress)
-        logging.info(f"Video uploaded successfully to chat ID: {chat_id}")
-        return video
-    except Exception as e:
-        logging.error(f"Failed to upload video to chat ID: {chat_id}. Error: {e}")
-        raise
-
 @app.on_message(filters.command("start"))
 async def start_command(client, message):
     chat_id = message.chat.id
@@ -105,6 +45,18 @@ async def start_command(client, message):
     welcome = await app.send_message(chat_id, "Send Any Yt-Dlp Supported Link to Download..")
     await asyncio.sleep(3)
 
+
+
+@app.on_message(filters.command("gen_link"))
+async def start_command(client, message):
+           start_gen_link()
+           await message.delete()
+           status = await app.send_message(chat_id, "Started Generating Links ,Soon Links will be Sent")
+           await asyncio.sleep(3)
+           await status.delete()
+
+
+    
 @app.on_message(filters.command("speedtest"))
 async def speedtest_command(client, message):
     chat_id = message.chat.id
@@ -125,7 +77,6 @@ async def stats_command(client, message):
 
 
 
-    
 @app.on_message(filters.text)
 async def video(client, message):
     try:
