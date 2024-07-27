@@ -36,10 +36,9 @@ def get_info():
 
 def fetch_video_links():
     base_url = "https://cf-proxy.mrspidyxd.workers.dev/?host="
-    url = "https://www.pornhub.com"
-    search_url = "https://www.pornhub.com/video/search?search="
+    url = ["https://www.pornhub.com","https://www.pornhub.com/video?o=mv","https://www.pornhub.com/video?o=ht","https://www.pornhub.com/video?o=tr","https://www.pornhub.com/video?o=cm"]
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"}
-    response = requests.get(base_url + url, headers=headers)
+    response = requests.get(base_url + random.choice(url), headers=headers)
     soup = BeautifulSoup(response.content, 'html.parser')
     return [div.find('a', class_='thumbnailTitle')['href'].replace("https://cf-proxy.mrspidyxd.workers.dev", url).split("&")[0] for div in soup.find_all('div', class_='vidTitleWrapper') if div.find('a', class_='thumbnailTitle')]
 
@@ -72,9 +71,9 @@ def extract_urls(url):
 
 def fetch_models():
     try:
-        url = 'https://www.pornhub.com/pornstars?o=t#subFilterListVideos'
+        url = ["https://www.pornhub.com/pornstars?performerType=amateur#subFilterListVideos","https://www.pornhub.com/pornstars?o=mp&t=a&gender=female&performerType=amateur",'https://www.pornhub.com/pornstars?o=t#subFilterListVideos',"https://www.pornhub.com/pornstars?gender=female&performerType=amateur","https://www.pornhub.com/pornstars?gender=female","https://www.pornhub.com/pornstars?gender=female&performerType=pornstar","https://www.pornhub.com/pornstars?o=mv&performerType=pornstar#subFilterListVideos","https://www.pornhub.com/pornstars?performerType=amateur#subFilterListVideos","https://www.pornhub.com/pornstars?o=t&performerType=amateur#subFilterListVideos","https://www.pornhub.com/pornstars?o=r","https://www.pornhub.com/pornstars?o=ms#subFilterListVideos","https://www.pornhub.com/pornstars?o=ms&performerType=amateur"]
         base_url = "https://www.pornhub.com"
-        response = requests.get(url)
+        response = requests.get(random.choice(url))
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
         hrefs = set(link.get('href') for link in soup.find_all('a') if link.get('href'))
@@ -147,7 +146,7 @@ def main():
     logging.info(f"Filtered Videos:{filtered}")
     urls = random.sample(urls,60)
     urls = [" ".join(urls[0:30])," ".join(urls[30:])]
-    time.sleep(30)
+    time.sleep(10)
     for url in urls:
            send_message(text=url,chat_id=LINK_ID)
            logging.info("Splited Videos:"+str(len(url.split())))
