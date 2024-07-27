@@ -30,3 +30,18 @@ def find_documents(db, collection_name, query=None):
     except Exception as e:
         print(f"Error: Could not retrieve documents.\n{e}")
         return []
+
+
+def check_db(url):
+    documents = find_documents(db, collection_name)
+    logging.info("Documents retrieved from MongoDB:")
+    urls = [doc["URL"] for doc in documents]
+    return url in urls
+
+
+def get_info(url):
+    documents = find_documents(db, collection_name)
+    logging.info("Documents retrieved from MongoDB:")
+    urls = [doc for doc in documents if doc["URL"] == url][0]
+    return urls
+    
