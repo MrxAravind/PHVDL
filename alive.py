@@ -12,20 +12,18 @@ def home():
     return f"I'm Alive... Fuck Off {datetime.now()}"
 
 
-
-
-
 @app.route('/refresh')
 def refresh():
-       main()
+       start_link_gen()
        return f"""Links Are being Fetching"""
-  
-@app.route('/links')
-def links():
-    file = "link_fetcher.log"
+
+
+@app.route('/log')
+def long():
+    file = "PHVDL.log"
     with open(file) as logfile:
         log = logfile.readlines()  
-        return f"""<h6>{"<h6><br><h6>".join(log)}<h6>"""
+        return "<br>".join(log)
 
 
 def run():
