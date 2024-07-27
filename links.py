@@ -66,27 +66,28 @@ def send_message(text,chat_id):
         print("Message Sent :"+str(response.json()['ok']))
 
 
-def link_gen(db,collection_name,logging):
+def link_gen(db=None,collection_name=None,logging=None):
   print("Started link_gen")
   while True:
     urls = []
     for ph in fetch_models():
-        logging.info(ph)
+        print(ph)
         urls.extend(extract_urls(ph))
-    logging.info("Some Recommended Videos")
+    print("Some Recommended Videos")
     urls.extend(fetch_video_links())
     length = len(urls)
-    logging.info(f"Total Videos:{length}")
-    data = get_raw_url(db,collection_name)
-    urls = [url for url in urls if url not in data]
+    print(f"Total Videos:{length}")
+    if db:
+      data = get_raw_url(db,collection_name)
+      urls = [url for url in urls if url not in data]
     filtered = len(urls)
-    logging.info(f"Filtered Videos:{filtered}")
+    print(f"Filtered Videos:{filtered}")
     urls = random.sample(urls,60)
     urls = [" ".join(urls[0:30])," ".join(urls[30:])]
     time.sleep(3)
     for url in urls:
            send_message(text=url,chat_id=LINK_ID)
-           logging.info("Splited Videos:"+str(len(url.split())))
+           print("Splited Videos:"+str(len(url.split())))
            send_message(text=f"Total {length} Videos\nFiltered {filtered}\nNow Sent {len(url.split())}",chat_id=LOG_ID)
            time.sleep(1200)
     time.sleep(3600)
