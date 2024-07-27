@@ -10,7 +10,7 @@ from config import *
 from database import *
 import static_ffmpeg
 from video import *
-from update import start_link_gen
+from links import start_link_gen
 
 # Configure logging
 logging.basicConfig(
