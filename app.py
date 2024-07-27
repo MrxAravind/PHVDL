@@ -30,6 +30,24 @@ logging.basicConfig(
 # Create the Pyrogram client
 app = Client("my_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN,workers=100)
 
+
+
+
+
+def extract_urls(url):
+    temp_file = "dump.txt"
+    os.system(f"yt-dlp --flat-playlist -j {url} > {temp_file}")
+    urls = []
+    with open(temp_file) as file:
+            for line in file:
+                parts = line.strip().split()
+                for i in range(len(parts)):
+                    if '"url":' == parts[i]:
+                        # Extract and write the URL to the output file
+                        urls.append(parts[i + 1].strip('"",'))
+    os.remove(temp_file)
+    return urls
+
 def check_db(url):
     documents = find_documents(db, collection_name)
     logging.info("Documents retrieved from MongoDB:")
@@ -121,7 +139,9 @@ async def video(client, message):
         start_time = datetime.now()
         chat_id = message.chat.id
         if message.text.startswith("https://"):
-            video_urls = [i.strip() for i in message.text.split()]
+            video_urls = [i.strip() for i in message.text.split():
+            if "playlist" in message.text:
+                   video_urls = extract_urls(message.text.strip())
             await message.delete()
             video_hash = hash(video_urls[0])
             download_dir = f'downloads/{video_hash}'
