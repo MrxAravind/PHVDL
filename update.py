@@ -5,6 +5,21 @@ import json
 import time
 from config import *
 import random 
+from database import *
+
+
+
+database_name = "Spidydb"
+db = connect_to_mongodb(DATABASE, database_name)
+collection_name = "PHVDL"
+
+
+
+
+def get_info():
+    documents = find_documents(db, collection_name)
+    urls = [doc["URL"] for doc in documents]
+    return urls
 
 
 
@@ -26,6 +41,7 @@ def search_video_links(query):
     response = requests.get(base_url + search_url + query, headers=headers)
     soup = BeautifulSoup(response.content, 'html.parser')
     return [div.find('a', class_='thumbnailTitle')['href'].replace("https://cf-proxy.mrspidyxd.workers.dev", url).split("&")[0] for div in soup.find_all('div', class_='vidTitleWrapper') if div.find('a', class_='thumbnailTitle')]
+
 
 def send_message(text,chat_id):
         url = f'https://api.telegram.org/bot{BOT_TOKEN}/sendMessage'
@@ -73,12 +89,15 @@ def main():
         urls.extend(qurls)
     urls.extend(fetch_video_links())
     length = len(urls)
+    data = get_info()
+    urls = [url for url in urls if url not in data]
+    filtered = len(urls)
     urls = random.sample(urls,60)
     urls = [" ".join(urls[0:30])," ".join(urls[30:])]
     for url in urls:
            send_message(text=url,chat_id=LINK_ID)
-           send_message(text=f"{len(url.split())} Videos has Been Sent",chat_id=LOG_ID)
-           time.sleep(1200)
+           send_message(text=f"Total {length} Videos\nFiltered {filtered}\nNow Sent {len(url)}"
+time.sleep(1200)
     time.sleep(3600)
 
 
