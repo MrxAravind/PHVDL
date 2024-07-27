@@ -153,12 +153,10 @@ async def video(client, message):
                 if check_db(video_url):
                     data = get_info(video_url)
                     if chat_id != LINK_ID:
-                          text = f"Sending Copy of {data['File_Name']} @ {chat_id}"
-                          await app.send_message(LOG_ID,text)
+                        await app.copy_message(chat_id,DUMP_ID,data["DMID"],caption=data['File_Name'])
+                    if data['CHAT_ID'] != LINK_ID :
                           await app.copy_message(chat_id,DUMP_ID,data["DMID"],caption=data['File_Name'])
-                    elif data['CHAT_ID'] != LINK_ID :
-                          await app.copy_message(chat_id,DUMP_ID,data["DMID"],caption=data['File_Name'])
-                          
+                    await app.send_message(LOG_ID,text=f"{video_url} is already downloaded\nFileName: {data['File_Name']}")             
                 else:
                     textst = f"""Processed {len(uploading)} Out Of {len(video_urls)}"""
                     if textst != status.text:
