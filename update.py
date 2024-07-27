@@ -55,16 +55,30 @@ def search_video_links(query):
 
 
 
-
+def extract_urls(url):
+    temp_file = "dump.txt"
+    os.system(f"yt-dlp --flat-playlist -j {url} > {temp_file}")
+    urls = []
+    with open(temp_file) as file:
+            for line in file:
+                parts = line.strip().split()
+                for i in range(len(parts)):
+                    if '"url":' == parts[i]:
+                        # Extract and write the URL to the output file
+                        urls.append(parts[i + 1].strip('"",'))
+    os.remove(temp_file)
+    return urls
+    
 
 def fetch_models():
     try:
         url = 'https://www.pornhub.com/pornstars?o=t#subFilterListVideos'
+        base_url = "https://www.pornhub.com"
         response = requests.get(url)
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
         hrefs = set(link.get('href') for link in soup.find_all('a') if link.get('href'))
-        return {href for href in hrefs if "/model/" in href or "/pornstar/" in href or "/channel/" in href}
+        return {base_url+href for href in hrefs if "/model/" in href or "/pornstar/" in href or "/channel/" in href}
     except requests.RequestException as e:
         print(f"An error occurred: {e}")
 
@@ -86,7 +100,6 @@ words =["blowjob","step_sister","step_mom","familysharing","Swap_sister","swap_m
 
 
 
-pornstars = ["lolly lips"]
 nsfw_keywords = [
     "nsfw", "explicit", "nude", "porn", "sex", "xxx", "hentai", "erotic", 
     "fetish", "bdsm", "hardcore", "anal", "blowjob", "cum", "ejaculation", 
@@ -113,12 +126,15 @@ nsfw_keywords = [
 def main():
   while True:
     urls = []
-    for i in range(10):
-        word=  random.choice(words)
+    for i in range(3):
+        word = random.choice(words)
         logging.info(word)
         qurls = search_video_links(word)
         urls.extend(qurls)
+    for ph in fetch_models()[:3]:
+       urls.extend(extract_urls(ph))
     urls.extend(fetch_video_links())
+    urls.extend(search_video_links(random.choice(nsfw_keywords)))
     length = len(urls)
     logging.info(f"Total Videos:{length}")
     data = get_info()
