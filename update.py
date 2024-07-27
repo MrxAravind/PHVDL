@@ -84,7 +84,7 @@ nsfw_keywords = [
     "foot fetish", "foot job", "tickling", "spanking", "kink", "kinkster", "leather", 
     "latex", "rubber", "gimp", "chastity", "cuckold", "cuckquean", "cream pie", "felching", 
     "sounding", "pegging", "zoophilia", "bestiality", "necrophilia", "pedophilia", "child porn", 
-    "cp", "hentai", "futanari", "yaoi", "yuri", "shota", "loli", "ero", "eroge", "bishoujo", 
+    "cp", "hentai", "futanar", "yaoi", "yuri", "shota", "loli", "ero", "eroge", "bishoujo", 
     "bishonen", "hentai doujin", "doujinshi", "smut", "lemon", "lime", "yaoi paddle", "furry porn", 
     "anthro porn", "monster porn", "tentacle porn", "hentai game", "h-game", "visual novel", "ecchi", 
     "super ecchi", "oppai", "yiff", "bara", "ahegao", "pissing", "piss play", "golden shower",
