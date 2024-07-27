@@ -54,6 +54,22 @@ def search_video_links(query):
     return [div.find('a', class_='thumbnailTitle')['href'].replace("https://cf-proxy.mrspidyxd.workers.dev", url).split("&")[0] for div in soup.find_all('div', class_='vidTitleWrapper') if div.find('a', class_='thumbnailTitle')][0:30]
 
 
+
+
+
+def fetch_models():
+    try:
+        url = 'https://www.pornhub.com/pornstars?o=t#subFilterListVideos'
+        response = requests.get(url)
+        response.raise_for_status()
+        soup = BeautifulSoup(response.text, 'html.parser')
+        hrefs = set(link.get('href') for link in soup.find_all('a') if link.get('href'))
+        return {href for href in hrefs if "/model/" in href or "/pornstar/" in href or "/channel/" in href}
+    except requests.RequestException as e:
+        print(f"An error occurred: {e}")
+
+
+
 def send_message(text,chat_id):
         url = f'https://api.telegram.org/bot{BOT_TOKEN}/sendMessage'
         payload = {
