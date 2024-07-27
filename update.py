@@ -36,7 +36,7 @@ def send_message(text,chat_id):
         print(response.json())
 
 
-words =["blowjob","bdsm","anal","pussy licking","transgender",
+words =["blowjob","step_sister","step_mom","familysharing","Swap_sister","swap_mom","bdsm","anal","pussy licking","transgender",
         "gangbang","dp","breastfeeding","MLIF","japanese","deepthroat","rimming","tits","boobs",
         "milking","facial","freeuse","Lesbian","Latina","Bondage","Natural Tits","kink","squirting", "bukkake","Cuckold","Orgy","cock", "pussy", "vagina","Threesome","cuckquean", "cream pie","swallow cum","Hotwives","TiedUp","69"]
 
