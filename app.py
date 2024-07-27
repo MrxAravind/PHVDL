@@ -50,7 +50,7 @@ async def start_command(client, message):
 async def gen_linkcmd(client, message):
            chat_id = message.chat.id
            await message.delete()
-           start_link_gen(db,collection_name)
+           link_gen(db,collection_name)
            status = await app.send_message(chat_id, "Started Generating Links ,Soon Links will be Sent")
            await asyncio.sleep(3)
            await status.delete()
