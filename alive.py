@@ -10,6 +10,13 @@ app = Flask('')
 def home():
     return f"I'm Alive... Fuck Off {datetime.now()}"
 
+
+@app.route('/logs')
+def logs():
+    file = "video_downloader.log"
+    with open(file) as logfile:
+        return logfile.read()
+    
 def run():
   app.run(host='0.0.0.0',port=80)
 
