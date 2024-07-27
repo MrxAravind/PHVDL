@@ -79,7 +79,7 @@ def link_gen(db=None,collection_name=None,logging=None):
     urls.extend(fetch_video_links())
     length = len(urls)
     print(f"Total Videos:{length}")
-    if db:
+    if db is not None:
       data = get_raw_url(db,collection_name)
       urls = [url for url in urls if url not in data]
     filtered = len(urls)
