@@ -101,11 +101,11 @@ def main():
         urls.extend(qurls)
     urls.extend(fetch_video_links())
     length = len(urls)
-    logging.info("Total Videos:"+length)
+    logging.info(f"Total Videos:{length}")
     data = get_info()
     urls = [url for url in urls if url not in data]
     filtered = len(urls)
-    logging.info("Filtered Videos:"+length)
+    logging.info(f"Filtered Videos:{filtered}")
     urls = random.sample(urls,60)
     urls = [" ".join(urls[0:30])," ".join(urls[30:])]
     time.sleep(30)
