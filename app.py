@@ -47,7 +47,7 @@ async def start_command(client, message):
 
 
 @app.on_message(filters.command("gen_link"))
-async def start_command(client, message):
+async def gen_linkcmd(client, message):
            start_gen_link(db,collection_name)
            await message.delete()
            status = await app.send_message(chat_id, "Started Generating Links ,Soon Links will be Sent")
