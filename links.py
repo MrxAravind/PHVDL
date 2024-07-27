@@ -96,7 +96,7 @@ def link_gen(db=None,collection_name=None,logging=None):
 
 
 def start_link_gen(db=None,collection_name=None,logging=None): 
-    t = Thread(target=link_gen,arg=(db,collection_name,logging))
+    t = Thread(target=link_gen,args=(db,collection_name,logging))
     t.start()
     print("Started Thread")
     
