@@ -19,7 +19,7 @@ def logs():
         return "<br>".join(log)
   
 @app.route('/links')
-def logs():
+def links():
     file = "link_fetcher.log"
     with open(file) as logfile:
         log = logfile.readlines()  
