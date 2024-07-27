@@ -2,7 +2,6 @@ import time
 from flask import Flask
 from threading import Thread
 from datetime import datetime
-from links import start_link_gen
 
 
 app = Flask('')
@@ -12,10 +11,6 @@ def home():
     return f"I'm Alive... Fuck Off {datetime.now()}"
 
 
-@app.route('/refresh')
-def refresh():
-       start_link_gen()
-       return f"""Links Are being Fetching"""
 
 
 @app.route('/log')
