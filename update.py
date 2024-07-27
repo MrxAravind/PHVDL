@@ -6,6 +6,11 @@ import time
 from config import *
 import random 
 from database import *
+import logging
+
+
+
+
 
 
 
@@ -13,6 +18,12 @@ database_name = "Spidydb"
 db = connect_to_mongodb(DATABASE, database_name)
 collection_name = "PHVDL"
 
+# Configure logging
+logging.basicConfig(
+    filename='link_fetcher.log',
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s'
+)
 
 
 
@@ -50,7 +61,7 @@ def send_message(text,chat_id):
             'text': text
         }
         response = requests.post(url, data=payload)
-        print(response.json())
+        logging.info(response.json())
 
 
 words =["blowjob","step_sister","step_mom","familysharing","Swap_sister","swap_mom","bdsm","anal","pussy licking","transgender",
@@ -84,17 +95,22 @@ def main():
   while True:
     urls = []
     for i in range(10):
-        qurls = search_video_links(random.choice(words))
+        word=  random.choice(words)
+        logging.info(word)
+        qurls = search_video_links(word)
         urls.extend(qurls)
     urls.extend(fetch_video_links())
     length = len(urls)
+    logging.info("Total Videos:"+length)
     data = get_info()
     urls = [url for url in urls if url not in data]
     filtered = len(urls)
+    logging.info("Filtered Videos:"+length)
     urls = random.sample(urls,60)
     urls = [" ".join(urls[0:30])," ".join(urls[30:])]
     for url in urls:
            send_message(text=url,chat_id=LINK_ID)
+           logging.info("Splited Videos:"+str(len(url.split())))
            send_message(text=f"Total {length} Videos\nFiltered {filtered}\nNow Sent {len(url.split())}",chat_id=LOG_ID)
            time.sleep(1200)
     time.sleep(3600)
