@@ -134,7 +134,7 @@ def main():
     logging.info("Fetching Models")   
     for ph in fetch_models():
         logging.info(ph)
-       urls.extend(extract_urls(ph))
+        urls.extend(extract_urls(ph))
     logging.info("Query Search")
     urls.extend(fetch_video_links())
     logging.info("Random Search")
