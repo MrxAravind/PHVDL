@@ -12,6 +12,7 @@ import static_ffmpeg
 from video import *
 from links import start_link_gen
 
+
 # Configure logging
 logging.basicConfig(
     filename='PHVDL.log',
@@ -137,6 +138,7 @@ async def video(client, message):
             await asyncio.sleep(3)
             await ST.delete()
     except Exception as e:
+        print(e)
         status = await app.send_message(LOG_ID,f"Error Occurred: {e}")
         logging.error(f"An error occurred: {e}")
 
