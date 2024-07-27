@@ -91,7 +91,6 @@ def download_video(url, output_path='downloads'):
         return ydl_opts['outtmpl']
     except Exception as e:
         logging.error(f"Failed to download video from URL: {url}. Error: {e}")
-        raise
 
 def upload_progress(current, total):
     logging.info(f"Uploading: {current * 100 / total:.1f}%")
