@@ -35,12 +35,13 @@ def get_info():
 
 
 def fetch_video_links():
-    base_url = "https://cf-proxy.mrspidyxd.workers.dev/?host="
+    proxy_url = "https://cf-proxy.mrspidyxd.workers.dev/?host="
+    base_url = "https://www.pornhub.com"
     url = ["https://www.pornhub.com","https://www.pornhub.com/video?o=mv","https://www.pornhub.com/video?o=ht","https://www.pornhub.com/video?o=tr","https://www.pornhub.com/video?o=cm"]
     headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"}
-    response = requests.get(base_url + random.choice(url), headers=headers)
+    response = requests.get(proxy_url + random.choice(url), headers=headers)
     soup = BeautifulSoup(response.content, 'html.parser')
-    return [div.find('a', class_='thumbnailTitle')['href'].replace("https://cf-proxy.mrspidyxd.workers.dev", url).split("&")[0] for div in soup.find_all('div', class_='vidTitleWrapper') if div.find('a', class_='thumbnailTitle')]
+    return [div.find('a', class_='thumbnailTitle')['href'].replace("https://cf-proxy.mrspidyxd.workers.dev",base_url).split("&")[0] for div in soup.find_all('div', class_='vidTitleWrapper') if div.find('a', class_='thumbnailTitle')]
 
 
 def search_video_links(query):
