@@ -156,6 +156,9 @@ async def video(client, message):
                           text = f"Sending Copy of {data['File_Name']} @ {chat_id}"
                           await app.send_message(LOG_ID,text)
                           await app.copy_message(chat_id,DUMP_ID,data["DMID"],caption=data['File_Name'])
+                 elif :
+                          await app.copy_message(chat_id,DUMP_ID,data["DMID"],caption=data['File_Name'])
+                          
                 else:
                     status = await status.edit_text(f"Processed {len(uploading)} Out Of {len(video_urls)}")
                     downloaded_video_path = download_video(video_url, output_path=download_dir)
