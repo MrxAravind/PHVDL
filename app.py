@@ -151,12 +151,12 @@ async def video(client, message):
             uploading = []
             for video_url in video_urls:
                 if check_db(video_url):
-                      data = get_info(video_url)
-                      if chat_id != LINK_ID:
+                data = get_info(video_url)
+                if chat_id != LINK_ID:
                           text = f"Sending Copy of {data['File_Name']} @ {chat_id}"
                           await app.send_message(LOG_ID,text)
                           await app.copy_message(chat_id,DUMP_ID,data["DMID"],caption=data['File_Name'])
-                       elif data['CHAT_ID'] != LINK_ID :
+                elif data['CHAT_ID'] != LINK_ID :
                           await app.copy_message(chat_id,DUMP_ID,data["DMID"],caption=data['File_Name'])
                           
                 else:
