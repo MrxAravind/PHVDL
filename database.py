@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 
+
 def connect_to_mongodb(uri, db_name):
     try:
         client = MongoClient(uri)
@@ -32,21 +33,21 @@ def find_documents(db, collection_name, query=None):
         return []
 
 
-def check_db(url):
+def check_db(db,collection_name,url):
     documents = find_documents(db, collection_name)
     logging.info("Documents retrieved from MongoDB:")
     urls = [doc["URL"] for doc in documents]
     return url in urls
 
 
-def get_info(url):
+def get_info(db,collection_name,url):
     documents = find_documents(db, collection_name)
     logging.info("Documents retrieved from MongoDB:")
     urls = [doc for doc in documents if doc["URL"] == url][0]
     return urls
 
 
-def get_raw_info():
+def get_raw_url(db,collection_name):
     documents = find_documents(db, collection_name)
     urls = [doc["URL"] for doc in documents]
     return urls
