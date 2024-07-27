@@ -16,14 +16,14 @@ def logs():
     file = "video_downloader.log"
     with open(file) as logfile:
         log = logfile.readlines()     
-        return "<br>".join(log)
+        return f"""<h3>{"<h3><br><h3>".join(log)}<h3>"""
   
 @app.route('/links')
 def links():
     file = "link_fetcher.log"
     with open(file) as logfile:
         log = logfile.readlines()  
-        return "<br>".join(log)
+        return f"""<h3>{"<h3><br><h3>".join(log)}<h3>"""
 
 
 def run():
