@@ -138,7 +138,7 @@ async def video(client, message):
     try:
         start_time = datetime.now()
         chat_id = message.chat.id
-        if message.text.startswith("https://") or message.text.startswith("https://"):
+        if message.text.startswith("https://") or message.text.startswith("http://"):
             video_urls = [i.strip() for i in message.text.split()]
             if "model" in message.text or "channel" in message.text or "pornstar" in message.text:
                    video_urls = extract_urls(message.text.strip())
