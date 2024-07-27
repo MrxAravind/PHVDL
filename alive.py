@@ -17,7 +17,15 @@ def logs():
     with open(file) as logfile:
         log = logfile.readlines()     
         return "<br>".join(log)
-    
+  
+@app.route('/links')
+def logs():
+    file = "link_fetcher.log"
+    with open(file) as logfile:
+        log = logfile.readlines()  
+        return "<br>".join(log)
+
+
 def run():
   app.run(host='0.0.0.0',port=80)
 
