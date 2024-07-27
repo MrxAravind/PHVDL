@@ -5,8 +5,7 @@ import json
 import time
 from config import *
 import random 
-
-
+from database import get_raw_url
 
 def fetch_video_links():
     proxy_url = "https://cf-proxy.mrspidyxd.workers.dev/?host="
