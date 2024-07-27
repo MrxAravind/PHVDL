@@ -187,9 +187,13 @@ async def video(client, message):
                                  os.remove(exact_file_path)
                                  os.remove(thumbnail_path)
                     else:
-                        logging.error(f"Downloaded video or thumbnail file not found in '{download_dir}' directory.")
+                        if uploading ==0:
+                            logging.error(f"Downloaded video or thumbnail file not found in '{download_dir}' directory.")
             await status.delete()
-            await app.send_message(chat_id,f"{len(uploading)} Video/s Has Uploaded")
+            ST = await app.send_message(chat_id,f"{len(uploading)} Video/s Has Uploaded")
+            await app.send_message(LOG_ID,f"{len(uploading)} Video/s Has Uploaded")
+            await asyncio.time(3)
+            await ST.delete()
     except Exception as e:
         status = await app.send_message(LOG_ID,f"Error Occurred: {e}")
         logging.error(f"An error occurred: {e}")
