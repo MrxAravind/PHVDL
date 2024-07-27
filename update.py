@@ -82,7 +82,6 @@ nsfw_keywords = [
 
 def main():
   while True:
-    time.sleep(80)
     urls = []
     for i in range(10):
         qurls = search_video_links(random.choice(words))
@@ -92,7 +91,7 @@ def main():
     data = get_info()
     urls = [url for url in urls if url not in data]
     filtered = len(urls)
-    urls = random.sample(urls,60)
+    urls = random.sample(filtered,60)
     urls = [" ".join(urls[0:30])," ".join(urls[30:])]
     for url in urls:
            send_message(text=url,chat_id=LINK_ID)
