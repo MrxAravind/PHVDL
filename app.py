@@ -139,7 +139,7 @@ async def video(client, message):
         start_time = datetime.now()
         chat_id = message.chat.id
         if message.text.startswith("https://"):
-            video_urls = [i.strip() for i in message.text.split():
+            video_urls = [i.strip() for i in message.text.split()]
             if "playlist" in message.text:
                    video_urls = extract_urls(message.text.strip())
             await message.delete()
