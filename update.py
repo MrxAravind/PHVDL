@@ -78,7 +78,7 @@ def fetch_models():
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
         hrefs = set(link.get('href') for link in soup.find_all('a') if link.get('href'))
-        return {base_url+href for href in hrefs if "/model/" in href or "/pornstar/" in href or "/channel/" in href}
+        return [base_url+href for href in hrefs if "/model/" in href or "/pornstar/" in href or "/channel/" in href][:3]
     except requests.RequestException as e:
         print(f"An error occurred: {e}")
 
@@ -131,9 +131,13 @@ def main():
         logging.info(word)
         qurls = search_video_links(word)
         urls.extend(qurls)
-    for ph in fetch_models()[:3]:
+    logging.info("Fetching Models")   
+    for ph in fetch_models():
+        logging.info(ph)
        urls.extend(extract_urls(ph))
+    logging.info("Query Search")
     urls.extend(fetch_video_links())
+    logging.info("Random Search")
     urls.extend(search_video_links(random.choice(nsfw_keywords)))
     length = len(urls)
     logging.info(f"Total Videos:{length}")
