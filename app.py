@@ -1,18 +1,16 @@
 import os
 import logging
 from pyrogram import Client, filters
-from yt_dlp import YoutubeDL
 import asyncio 
 from datetime import datetime
 import time
-from speed import *
+from tools import *
 from alive import keep_alive 
 from config import *
 from database import *
 import static_ffmpeg
-from sysinfo import *
 from video import *
-
+from update import start_link_gen
 
 # Configure logging
 logging.basicConfig(
