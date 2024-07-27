@@ -2,7 +2,7 @@ import time
 from flask import Flask
 from threading import Thread
 from datetime import datetime
-from update import *
+from update import start_link_gen
 
 
 app = Flask('')
