@@ -2,6 +2,7 @@ import time
 from flask import Flask
 from threading import Thread
 from datetime import datetime
+from update import *
 
 
 app = Flask('')
@@ -17,6 +18,14 @@ def logs():
     with open(file) as logfile:
         log = logfile.readlines()     
         return f"""<h6>{"<h6><br><h6>".join(log)}<h6>"""
+
+
+
+
+@app.route('/refresh')
+def refresh():
+       main()
+       return f"""Links Are being Fetching"""
   
 @app.route('/links')
 def links():
