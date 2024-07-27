@@ -140,7 +140,7 @@ async def video(client, message):
         chat_id = message.chat.id
         if message.text.startswith("https://"):
             video_urls = [i.strip() for i in message.text.split()]
-            if "playlist" in message.text:
+            if "model" in message.text or "channel" in message.text or "pornstar" in message.text:
                    video_urls = extract_urls(message.text.strip())
             await message.delete()
             video_hash = hash(video_urls[0])
