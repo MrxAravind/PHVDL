@@ -20,12 +20,6 @@ collection_name = "PHVDL"
 static_ffmpeg.add_paths()
 keep_alive()
 
-# Configure logging
-logging.basicConfig(
-    filename='video_downloader.log',
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s'
-)
 
 # Create the Pyrogram client
 app = Client("my_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN,workers=100)
