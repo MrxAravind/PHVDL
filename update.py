@@ -91,7 +91,7 @@ def send_message(text,chat_id):
             'text': text
         }
         response = requests.post(url, data=payload)
-        logging.info("Message Sent"+response.json()['ok'])
+        logging.info("Message Sent :"+str(response.json()['ok']))
 
 
 words =["blowjob","step_sister","step_mom","familysharing","Swap_sister","swap_mom","bdsm","anal","pussy licking","transgender",
