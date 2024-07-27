@@ -156,7 +156,7 @@ async def video(client, message):
                           text = f"Sending Copy of {data['File_Name']} @ {chat_id}"
                           await app.send_message(LOG_ID,text)
                           await app.copy_message(chat_id,DUMP_ID,data["DMID"],caption=data['File_Name'])
-                 elif :
+                       elif data['CHAT_ID'] != LINK_ID :
                           await app.copy_message(chat_id,DUMP_ID,data["DMID"],caption=data['File_Name'])
                           
                 else:
@@ -170,8 +170,8 @@ async def video(client, message):
                                 exact_file_path = os.path.join(root, file)
                             elif file.endswith(('.jpg', '.png', '.webp')):
                                 thumbnail_path = os.path.join(root, file)
-                            if exact_file_path and thumbnail_path and exact_file_path.split("/", 2)[-1] not in uploading:
-                              uploading.append(exact_file_path.split("/", 2)[-1])
+                            if exact_file_path and thumbnail_path and exact_file_path.split("/", 2)[-1] not in [uploads[0] for uploads in uploading]:
+                              uploading.append([exact_file_path.split("/", 2)[-1],video_url])
                               video = await upload_video(app, chat_id, exact_file_path, thumbnail_path)
                               if video:
                                  DM = await app.copy_message(DUMP_ID, video.chat.id,video.id,caption=f"""<b>File_Name:</b> <code>{exact_file_path.split("/", 2)[-1]}</code>\n<b>CHAT_ID:</b> <code>{chat_id}</code>""")
@@ -189,6 +189,7 @@ async def video(client, message):
                     else:
                         logging.error(f"Downloaded video or thumbnail file not found in '{download_dir}' directory.")
             await status.delete()
+            await app.send_message(chat_id,"{len(uploading)} Video/s Has Uploaded")
     except Exception as e:
         status = await app.send_message(LOG_ID,f"Error Occurred: {e}")
         logging.error(f"An error occurred: {e}")
