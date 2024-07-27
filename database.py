@@ -35,14 +35,14 @@ def find_documents(db, collection_name, query=None):
 
 def check_db(db,collection_name,url):
     documents = find_documents(db, collection_name)
-    logging.info("Documents retrieved from MongoDB:")
+    print("Documents retrieved from MongoDB:")
     urls = [doc["URL"] for doc in documents]
     return url in urls
 
 
 def get_info(db,collection_name,url):
     documents = find_documents(db, collection_name)
-    logging.info("Documents retrieved from MongoDB:")
+    print("Documents retrieved from MongoDB:")
     urls = [doc for doc in documents if doc["URL"] == url][0]
     return urls
 
