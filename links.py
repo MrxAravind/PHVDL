@@ -67,6 +67,7 @@ def send_message(text,chat_id):
 
 
 def link_gen(db,collection_name,logging):
+  print("Started link_gen")
   while True:
     urls = []
     for ph in fetch_models():
@@ -91,9 +92,11 @@ def link_gen(db,collection_name,logging):
     time.sleep(3600)
 
 
-def start_link_gen(db,collection_name,logging):  
+def start_link_gen(db,collection_name,logging): 
     t = Thread(target=link_gen,arg=(db,collection_name,logging))
     t.start()
+    print("Started Thread")
+    
 
 
 if __name__ == '__main__':
