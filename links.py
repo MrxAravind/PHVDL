@@ -70,7 +70,7 @@ def send_message(text,chat_id):
 
 def link_gen(db=None,collection_name=None,logging=None):
   print("Started link_gen")
-  while True:
+  if True:
     urls = []
     for ph in fetch_models():
         logging.info(ph)
@@ -85,15 +85,11 @@ def link_gen(db=None,collection_name=None,logging=None):
     filtered = len(urls)
     logging.info(f"Filtered Videos:{filtered}")
     urls = random.sample(urls,60)
-    urls = [" ".join(urls[0:30])," ".join(urls[30:])]
+    urls = " ".join(urls)
     time.sleep(3)
-    for url in urls:
-           send_message(text=url,chat_id=LINK_ID)
-           logging.info("Splited Videos:"+str(len(url.split())))
-           send_message(text=f"Total {length} Videos\nFiltered {filtered}\nNow Sent {len(url.split())}",chat_id=LOG_ID)
-           time.sleep(1200)
-    time.sleep(3600)
-
+    send_message(text=urls,chat_id=LINK_ID)
+    logging.info("Splited Videos:"+str(len(url.split())))
+    send_message(text=f"Total {length} Videos\nFiltered {filtered}\nNow Sent {len(urls.split())}",chat_id=LOG_ID)
 
 def start_link_gen(db=None,collection_name=None,logging=None): 
     t = Thread(target=link_gen,args=(db,collection_name,logging))
