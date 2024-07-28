@@ -73,23 +73,23 @@ def link_gen(db=None,collection_name=None,logging=None):
   while True:
     urls = []
     for ph in fetch_models():
-        print(ph)
+        logging.info(ph)
         urls.extend(extract_urls(ph))
-    print("Some Recommended Videos")
+    logging.info("Some Recommended Videos")
     urls.extend(fetch_video_links())
     length = len(urls)
-    print(f"Total Videos:{length}")
+    logging.info(f"Total Videos:{length}")
     if db is not None:
       data = get_raw_url(db,collection_name)
       urls = [url for url in urls if url not in data]
     filtered = len(urls)
-    print(f"Filtered Videos:{filtered}")
+    logging.info(f"Filtered Videos:{filtered}")
     urls = random.sample(urls,60)
     urls = [" ".join(urls[0:30])," ".join(urls[30:])]
     time.sleep(3)
     for url in urls:
            send_message(text=url,chat_id=LINK_ID)
-           print("Splited Videos:"+str(len(url.split())))
+           logging.info("Splited Videos:"+str(len(url.split())))
            send_message(text=f"Total {length} Videos\nFiltered {filtered}\nNow Sent {len(url.split())}",chat_id=LOG_ID)
            time.sleep(1200)
     time.sleep(3600)
